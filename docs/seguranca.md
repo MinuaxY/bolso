@@ -72,6 +72,11 @@ risco, com três condições.
    futura migração para domínio próprio deixa os dados órfãos. O backup export/import
    precisa existir e estar testado **antes** de qualquer mudança de endereço.
 
+   Atualizacao de 03/09/2026: o `portfolio` foi tornado privado a pedido do
+   autor e deixou de publicar - `minuaxy.github.io` nao serve mais nada alem
+   do Bolso. O risco desta secao esta hoje sem vizinho, mas a regra continua
+   valendo para qualquer projeto futuro publicado nesta conta.
+
 ## 5. O que o Bolso não protege
 
 Ser honesto sobre o limite é parte da segurança.
