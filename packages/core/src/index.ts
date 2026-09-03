@@ -1,0 +1,57 @@
+/**
+ * Nucleo de dominio do Bolso.
+ *
+ * Nada aqui sabe que existe navegador, React, armazenamento ou arquivo. E de
+ * proposito: e a parte que precisa continuar correta quando tudo em volta
+ * mudar, e a unica que da para testar inteira sem abrir uma tela.
+ */
+
+export type {
+  Categoria,
+  Competencia,
+  Conta,
+  DataCivil,
+  Despesa,
+  FormaPagamento,
+  Lancamento,
+  MotivoRevisao,
+  OrigemLancamento,
+  Parcela,
+  Receita,
+  RegraCategorizacao,
+  StatusDespesa,
+  StatusReceita,
+  TipoLancamento,
+} from './tipos.js';
+
+export {
+  competenciaDaData,
+  competenciaDe,
+  ehDataCivil,
+  partesDaCompetencia,
+  partesDe,
+  somarMeses,
+} from './data.js';
+export type { PartesData } from './data.js';
+
+export { corrigirMojibake, normalizar } from './texto.js';
+
+export {
+  descricaoSemParcela,
+  detectarParcela,
+  parcelasRestantes,
+  valorRestanteCentavos,
+} from './parcelas.js';
+
+export {
+  CATEGORIA_PADRAO_DESPESA,
+  CATEGORIA_PADRAO_RECEITA,
+  categorizar,
+  encontrarRegra,
+} from './categorizacao.js';
+export type { ResultadoCategorizacao } from './categorizacao.js';
+
+export { competenciaDaCompra, competenciaDeDebito } from './fatura.js';
+
+export { chaveDeDuplicacao, classificarImportacao } from './deduplicacao.js';
+export type { ItemDeduplicavel, ResultadoImportacao } from './deduplicacao.js';

@@ -4,8 +4,9 @@ Controle financeiro que roda no seu navegador. Você importa o extrato que o seu
 já exporta — CSV ou OFX — e os dados ficam na sua máquina. Nada é enviado para servidor
 nenhum, porque não existe servidor.
 
-> **Status:** em desenvolvimento, sprint 1 de 8. Ainda não há aplicação executável.
-> O planejamento completo está em [`docs/conceito.md`](docs/conceito.md).
+> **Status:** sprint 1 de 8 concluída. O núcleo de domínio já existe e está testado;
+> ainda não há interface para usar. O planejamento completo está em
+> [`docs/conceito.md`](docs/conceito.md).
 
 ## Para quem
 
@@ -59,13 +60,27 @@ qualquer pessoa usar isto sem pagar nada.
 
 ## Como rodar
 
-Ainda não há o que rodar. As instruções entram aqui quando a sprint 2 fechar.
+Ainda não há aplicação para abrir — a interface começa na sprint 2. O que dá para
+rodar hoje é o núcleo e a bateria de testes:
+
+```bash
+npm install
+npm run verificar
+```
+
+`verificar` roda lint, checagem de tipos e testes com cobertura: exatamente o que a
+esteira do GitHub roda. Se passar aqui, passa lá.
 
 ## Stack
 
 React + Vite + TypeScript no navegador, núcleo de domínio em TypeScript puro sem
 framework e coberto por testes, armazenamento em IndexedDB atrás de uma interface.
 Publicação estática no GitHub Pages.
+
+Já implementado em `packages/core`: motor de categorização por regras ordenadas,
+detecção e projeção de parcelas, ciclo de fatura configurável, deduplicação de
+importação, correção de codificação e aritmética de data civil. As decisões de
+código estão em [`docs/convencoes.md`](docs/convencoes.md).
 
 ## Projeto de extensão
 

@@ -1,0 +1,101 @@
+import { describe, expect, it } from 'vitest';
+
+import { chaveDeDuplicacao, classificarImportacao } from './deduplicacao.js';
+import type { ItemDeduplicavel } from './deduplicacao.js';
+
+function compra(
+  data: string,
+  valorCentavos: number,
+  descricaoOriginal: string,
+  identificadorBanco?: string,
+): ItemDeduplicavel {
+  return identificadorBanco === undefined
+    ? { data, valorCentavos, descricaoOriginal }
+    : { data, valorCentavos, descricaoOriginal, identificadorBanco };
+}
+
+describe('chaveDeDuplicacao', () => {
+  it('usa o identificador do banco quando ele existe', () => {
+    // O CSV de conta do Nubank traz um UUID por linha: identidade de verdade.
+    const chave = chaveDeDuplicacao(
+      compra('2026-05-01', 23530, 'Pix enviado', '69f4eb22-4be6-4955-b645-0668d80c50b1'),
+    );
+    expect(chave).toContain('69f4eb22-4be6-4955-b645-0668d80c50b1');
+  });
+
+  it('cai na heuristica quando o banco nao da identificador', () => {
+    const a = chaveDeDuplicacao(compra('2026-06-02', 6105, '99food *Jyk Food'));
+    const b = chaveDeDuplicacao(compra('2026-06-02', 6105, '99FOOD  *jyk food'));
+    // Mesma transacao escrita com caixa e espaco diferentes: mesma chave.
+    expect(a).toBe(b);
+  });
+
+  it('separa lancamentos que diferem no valor ou na data', () => {
+    const base = chaveDeDuplicacao(compra('2026-06-02', 6105, 'Padaria'));
+    expect(chaveDeDuplicacao(compra('2026-06-02', 6106, 'Padaria'))).not.toBe(base);
+    expect(chaveDeDuplicacao(compra('2026-06-03', 6105, 'Padaria'))).not.toBe(base);
+  });
+});
+
+describe('classificarImportacao', () => {
+  it('reimportar o mesmo arquivo nao duplica nada', () => {
+    const arquivo = [
+      compra('2026-06-02', 6105, '99food *Jyk Food'),
+      compra('2026-06-01', 4348, 'Amazon'),
+    ];
+
+    const primeira = classificarImportacao(arquivo, []);
+    expect(primeira.novos).toHaveLength(2);
+    expect(primeira.duplicados).toHaveLength(0);
+
+    const segunda = classificarImportacao(arquivo, primeira.novos);
+    expect(segunda.novos).toHaveLength(0);
+    expect(segunda.duplicados).toHaveLength(2);
+  });
+
+  it('duas compras identicas no mesmo dia sao duas compras', () => {
+    // Dois cafes de sete reais na mesma padaria. Nao e duplicata.
+    const arquivo = [compra('2026-06-02', 700, 'Padaria'), compra('2026-06-02', 700, 'Padaria')];
+
+    const resultado = classificarImportacao(arquivo, []);
+    expect(resultado.novos).toHaveLength(2);
+  });
+
+  it('importa so o que passou a existir quando o arquivo cresce', () => {
+    const existentes = [compra('2026-06-02', 700, 'Padaria'), compra('2026-06-02', 700, 'Padaria')];
+    const arquivoMaior = [
+      compra('2026-06-02', 700, 'Padaria'),
+      compra('2026-06-02', 700, 'Padaria'),
+      compra('2026-06-02', 700, 'Padaria'),
+    ];
+
+    const resultado = classificarImportacao(arquivoMaior, existentes);
+    expect(resultado.novos).toHaveLength(1);
+    expect(resultado.duplicados).toHaveLength(2);
+  });
+
+  it('preserva a ordem do arquivo', () => {
+    const arquivo = [
+      compra('2026-06-01', 100, 'A'),
+      compra('2026-06-02', 200, 'B'),
+      compra('2026-06-03', 300, 'C'),
+    ];
+    const existentes = [compra('2026-06-02', 200, 'B')];
+
+    const resultado = classificarImportacao(arquivo, existentes);
+    expect(resultado.novos.map((l) => l.descricaoOriginal)).toEqual(['A', 'C']);
+    expect(resultado.duplicados.map((l) => l.descricaoOriginal)).toEqual(['B']);
+  });
+
+  it('identificador do banco vence a heuristica', () => {
+    // Mesma data, valor e descricao, mas o banco disse que sao transacoes
+    // diferentes. O banco tem razao.
+    const arquivo = [
+      compra('2026-05-01', 5540, 'Transferencia', 'aaaa-1111'),
+      compra('2026-05-01', 5540, 'Transferencia', 'bbbb-2222'),
+    ];
+
+    const resultado = classificarImportacao(arquivo, []);
+    expect(resultado.novos).toHaveLength(2);
+  });
+});
