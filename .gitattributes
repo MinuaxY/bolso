@@ -1,0 +1,8 @@
+# Normaliza fim de linha: LF no repositorio, nativo no working copy.
+# Sem isso, cada colaborador em Windows gera diff em arquivo que nao mudou.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.pdf binary
+*.xlsm binary
