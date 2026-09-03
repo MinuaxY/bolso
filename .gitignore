@@ -1,0 +1,42 @@
+# Dados financeiros — nunca versionar extrato de ninguém, incluindo o seu.
+# Esta seção vem primeiro de propósito: é o erro mais caro que este repositório pode cometer.
+*.ofx
+*.qif
+*.csv
+!docs/**/exemplo-*.csv
+extratos/
+faturas/
+dados/
+
+# Dependências
+node_modules/
+.pnpm-store/
+
+# Build
+dist/
+build/
+.vite/
+*.tsbuildinfo
+
+# Testes
+coverage/
+
+# Ambiente
+.env
+.env.*
+!.env.example
+
+# Editores e sistema
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
