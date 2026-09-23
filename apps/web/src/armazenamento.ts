@@ -23,6 +23,8 @@ const AJUSTES = 'ajustes';
 /** Como a empresa da pessoa e tributada. Vazio quando ela nao tem CNPJ. */
 export interface AjustesFiscais {
   readonly regime: 'nenhum' | 'simples' | 'mei';
+  /** Atividade escolhida na lista. `null` quando a pessoa preferiu o anexo na mao. */
+  readonly atividadeId: string | null;
   readonly anexo: Anexo;
   /** Atividades sujeitas ao Fator R trocam de anexo conforme a folha. */
   readonly sujeitoAoFatorR: boolean;
@@ -40,6 +42,7 @@ export interface Ajustes {
 
 export const FISCAL_INICIAL: AjustesFiscais = {
   regime: 'nenhum',
+  atividadeId: null,
   anexo: 'III',
   sujeitoAoFatorR: true,
   folha12Centavos: 0,

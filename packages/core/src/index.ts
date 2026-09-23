@@ -97,3 +97,6 @@ export type {
   TabelaSimples,
   Veredito,
 } from './simples.js';
+
+export { ATIVIDADES, AVISO_ATIVIDADES, atividadePorCnae, buscarAtividades } from './atividades.js';
+export type { Atividade } from './atividades.js';

@@ -1,6 +1,9 @@
 import {
+  ATIVIDADES,
+  AVISO_ATIVIDADES,
   TABELA_SIMPLES,
   anexoPorFatorR,
+  atividadePorCnae,
   calcularDas,
   calcularDasMei,
   calcularFatorRBase,
@@ -111,9 +114,16 @@ export function Fiscal({
   const receitaFinal = receitaMes ?? receitaDoMesImportada;
   const rbt12Final = rbt12 ?? rbt12Importado;
 
-  const anexoEfetivo: Anexo = fiscal.sujeitoAoFatorR
+  const atividade = ATIVIDADES.find((a) => a.id === fiscal.atividadeId);
+
+  // A atividade escolhida manda; sem ela, valem o anexo e a caixa do Fator R
+  // que a pessoa marcou na mao.
+  const sujeitoAoFatorR = atividade?.fatorR ?? fiscal.sujeitoAoFatorR;
+  const anexoBase: Anexo = atividade?.anexo ?? fiscal.anexo;
+
+  const anexoEfetivo: Anexo = sujeitoAoFatorR
     ? anexoPorFatorR(fiscal.folha12Centavos, rbt12Final)
-    : fiscal.anexo;
+    : anexoBase;
 
   const fatorRPercentual = calcularFatorRBase(fiscal.folha12Centavos, rbt12Final) / 100;
 
@@ -256,23 +266,60 @@ export function Fiscal({
             </div>
 
             <label className="campo">
-              <span>
-                <input
-                  type="checkbox"
-                  checked={fiscal.sujeitoAoFatorR}
-                  onChange={(evento) => {
-                    salvarFiscal({ sujeitoAoFatorR: evento.target.checked });
-                  }}
-                />{' '}
-                Minha atividade está sujeita ao Fator R
-              </span>
-              <small>
-                Vale para boa parte dos serviços. Com folha de pagamento igual ou acima de 28% da
-                receita, a empresa vai para o Anexo III, que é mais barato que o V.
-              </small>
+              O que a sua empresa faz
+              <input
+                type="text"
+                placeholder="Digite o CNAE ou o que a empresa faz"
+                onChange={(evento) => {
+                  const achada = atividadePorCnae(evento.target.value);
+                  if (achada !== undefined) salvarFiscal({ atividadeId: achada.id });
+                }}
+              />
+              <select
+                value={fiscal.atividadeId ?? ''}
+                onChange={(evento) => {
+                  salvarFiscal({ atividadeId: evento.target.value === '' ? null : evento.target.value });
+                }}
+              >
+                <option value="">Outra atividade — escolho o anexo na mão</option>
+                {(['I', 'II', 'III', 'IV', 'V'] as const).map((anexo) => (
+                  <optgroup key={anexo} label={`Anexo ${anexo}`}>
+                    {ATIVIDADES.filter((a) => a.anexo === anexo).map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.nome}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+              {atividade === undefined ? (
+                <small>
+                  Digitar o CNAE preenche a lista sozinho. Se a sua atividade não estiver aqui,
+                  escolha o anexo abaixo — e confirme com o contador.
+                </small>
+              ) : (
+                <small>
+                  {atividade.exemplos}. Anexo {atividade.anexo}
+                  {atividade.fatorR ? ', sujeito ao Fator R' : ', sem Fator R'} — {atividade.fundamento}.
+                </small>
+              )}
             </label>
 
-            {fiscal.sujeitoAoFatorR ? (
+            <details>
+              <summary>Por que o Bolso pergunta em vez de descobrir pelo CNPJ</summary>
+              <p className="nota">
+                A lei classifica pela descrição da atividade, não pelo código CNAE, e não existe
+                tabela oficial de CNAE para anexo — os anexos da Resolução CGSN 140/2018 que listam
+                CNAEs dizem quem <em>pode entrar</em> no Simples, não em que anexo cada um cai. A
+                lista acima é interpretação das atividades mais comuns: serve para orientar, e o
+                contador confirma. Consultar o seu CNPJ numa API resolveria parte disso, mas exigiria
+                mandar o seu CNPJ para um serviço de terceiro — e este app não faz requisição de
+                rede nenhuma, de propósito.
+              </p>
+              <p className="nota">{AVISO_ATIVIDADES}</p>
+            </details>
+
+            {sujeitoAoFatorR ? (
               <CampoDinheiro
                 rotulo="Folha de pagamento dos últimos 12 meses"
                 valorCentavos={fiscal.folha12Centavos}
@@ -283,6 +330,10 @@ export function Fiscal({
                   anexoEfetivo === 'III' ? 'Anexo III' : 'Anexo V'
                 }`}
               />
+            ) : atividade !== undefined ? (
+              <p className="nota">
+                Anexo {anexoBase} não usa Fator R: a folha de pagamento não muda o imposto aqui.
+              </p>
             ) : (
               <label className="campo">
                 Anexo

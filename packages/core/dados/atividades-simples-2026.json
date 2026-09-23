@@ -1,0 +1,241 @@
+{
+  "anoVigencia": 2026,
+  "conferidoEm": "2026-09-23",
+  "aviso": "A lei classifica por DESCRICAO da atividade, nao por codigo CNAE. Nao existe tabela oficial de CNAE para anexo: os anexos VI e VII da Resolucao CGSN 140/2018 tratam de quais CNAEs impedem a opcao pelo Simples, nao de qual anexo se aplica. Esta lista e interpretacao das atividades mais comuns e serve para orientar, nunca para decidir sozinha.",
+  "atividades": [
+    {
+      "id": "comercio",
+      "nome": "Comércio — loja, varejo, atacado, e-commerce",
+      "anexo": "I",
+      "fatorR": false,
+      "cnaes": [
+        "45",
+        "46",
+        "47"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §4º, I",
+      "exemplos": "mercado, loja de roupas, distribuidora, venda on-line"
+    },
+    {
+      "id": "industria",
+      "nome": "Indústria e fabricação",
+      "anexo": "II",
+      "fatorR": false,
+      "cnaes": [
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §4º, II",
+      "exemplos": "confecção, alimentos, móveis, gráfica"
+    },
+    {
+      "id": "construcao",
+      "nome": "Construção civil e obras",
+      "anexo": "IV",
+      "fatorR": false,
+      "cnaes": [
+        "41",
+        "42",
+        "43"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-C",
+      "exemplos": "empreiteira, reforma, instalação predial"
+    },
+    {
+      "id": "advocacia",
+      "nome": "Advocacia",
+      "anexo": "IV",
+      "fatorR": false,
+      "cnaes": [
+        "69.11",
+        "6911"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-C",
+      "exemplos": "escritório de advocacia"
+    },
+    {
+      "id": "vigilancia",
+      "nome": "Vigilância, limpeza e conservação",
+      "anexo": "IV",
+      "fatorR": false,
+      "cnaes": [
+        "80",
+        "81.21",
+        "8121"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-C",
+      "exemplos": "segurança patrimonial, limpeza predial"
+    },
+    {
+      "id": "contabilidade",
+      "nome": "Escritório de contabilidade",
+      "anexo": "III",
+      "fatorR": false,
+      "cnaes": [
+        "69.20",
+        "6920"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-B",
+      "exemplos": "contabilidade, assessoria fiscal"
+    },
+    {
+      "id": "ensino",
+      "nome": "Ensino, creche, curso livre",
+      "anexo": "III",
+      "fatorR": false,
+      "cnaes": [
+        "85"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-B",
+      "exemplos": "escola, creche, curso de idiomas, autoescola"
+    },
+    {
+      "id": "beleza",
+      "nome": "Salão de beleza, estética, barbearia",
+      "anexo": "III",
+      "fatorR": false,
+      "cnaes": [
+        "96.02",
+        "9602"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-B",
+      "exemplos": "cabeleireiro, manicure, depilação"
+    },
+    {
+      "id": "manutencao",
+      "nome": "Manutenção e reparo",
+      "anexo": "III",
+      "fatorR": false,
+      "cnaes": [
+        "95",
+        "33.1",
+        "331"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-B",
+      "exemplos": "conserto de eletrônicos, oficina, assistência técnica"
+    },
+    {
+      "id": "turismo",
+      "nome": "Agência de viagem e turismo",
+      "anexo": "III",
+      "fatorR": false,
+      "cnaes": [
+        "79"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-B",
+      "exemplos": "agência de viagens, operadora turística"
+    },
+    {
+      "id": "ti",
+      "nome": "Tecnologia e desenvolvimento de software",
+      "anexo": "V",
+      "fatorR": true,
+      "cnaes": [
+        "62",
+        "63"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-D, com a regra do Fator R",
+      "exemplos": "desenvolvimento de sistemas, sites, suporte em TI, dados"
+    },
+    {
+      "id": "publicidade",
+      "nome": "Publicidade, marketing e design",
+      "anexo": "V",
+      "fatorR": true,
+      "cnaes": [
+        "73",
+        "74.1",
+        "741"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-D, com a regra do Fator R",
+      "exemplos": "agência de publicidade, social media, design gráfico"
+    },
+    {
+      "id": "engenharia",
+      "nome": "Engenharia, arquitetura, agronomia e topografia",
+      "anexo": "V",
+      "fatorR": true,
+      "cnaes": [
+        "71",
+        "74.9",
+        "749"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-D, com a regra do Fator R",
+      "exemplos": "projeto de engenharia, escritório de arquitetura"
+    },
+    {
+      "id": "saude",
+      "nome": "Saúde — medicina, odontologia, psicologia, fisioterapia, enfermagem",
+      "anexo": "V",
+      "fatorR": true,
+      "cnaes": [
+        "86"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-D, com a regra do Fator R",
+      "exemplos": "consultório médico, clínica odontológica, psicólogo"
+    },
+    {
+      "id": "consultoria",
+      "nome": "Consultoria e gestão empresarial",
+      "anexo": "V",
+      "fatorR": true,
+      "cnaes": [
+        "70.2",
+        "702"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-D, com a regra do Fator R",
+      "exemplos": "consultoria de gestão, auditoria, treinamento empresarial"
+    },
+    {
+      "id": "representacao",
+      "nome": "Representação comercial e intermediação de negócios",
+      "anexo": "V",
+      "fatorR": true,
+      "cnaes": [
+        "46.1",
+        "461",
+        "74.90",
+        "7490"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-D, com a regra do Fator R",
+      "exemplos": "representante comercial, corretagem"
+    },
+    {
+      "id": "comunicacao",
+      "nome": "Jornalismo, produção de conteúdo e audiovisual",
+      "anexo": "V",
+      "fatorR": true,
+      "cnaes": [
+        "59",
+        "60",
+        "63.91",
+        "6391",
+        "90"
+      ],
+      "fundamento": "LC 123/2006, art. 18, §5º-D, com a regra do Fator R",
+      "exemplos": "jornalismo, produtora de vídeo, fotografia"
+    }
+  ]
+}
