@@ -5,6 +5,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "types": ["vitest/globals"],
+    "resolveJsonModule": true,
 
     "strict": true,
     "noUncheckedIndexedAccess": true,

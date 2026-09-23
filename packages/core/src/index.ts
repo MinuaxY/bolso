@@ -55,3 +55,23 @@ export { competenciaDaCompra, competenciaDeDebito } from './fatura.js';
 
 export { chaveDeDuplicacao, classificarImportacao } from './deduplicacao.js';
 export type { ItemDeduplicavel, ResultadoImportacao } from './deduplicacao.js';
+
+export { REGRAS_PADRAO, categoriasDe, validarRegras } from './regras.js';
+
+export { classificarNatureza } from './natureza.js';
+export type { Natureza } from './natureza.js';
+
+export {
+  competenciasDisponiveis,
+  comprasParceladas,
+  comprometimentoFuturo,
+  evolucaoMensal,
+  resumirMes,
+} from './relatorios.js';
+export type {
+  CompraParcelada,
+  CompromissoFuturo,
+  LinhaAgrupada,
+  PontoMensal,
+  ResumoMes,
+} from './relatorios.js';

@@ -14,6 +14,8 @@
  *    anterior ao serializar em UTC. Datas civis sao strings `AAAA-MM-DD`.
  */
 
+import type { Natureza } from './natureza.js';
+
 /** Data civil no formato `AAAA-MM-DD`. Sem hora, sem fuso. */
 export type DataCivil = string;
 
@@ -51,6 +53,8 @@ export interface OrigemLancamento {
   readonly descricaoOriginal: string;
   /** Nome do arquivo importado, so para a pessoa se localizar. */
   readonly arquivo?: string;
+  /** Qual leitor produziu este lancamento: `nubank-credito`, `generico`... */
+  readonly fonte?: string;
 }
 
 /** Por que este lancamento precisa de olho humano. */
@@ -63,6 +67,13 @@ export type MotivoRevisao =
 interface LancamentoBase {
   readonly id: string;
   readonly data: DataCivil;
+  /**
+   * Em que mes este lancamento conta. Gravado no lancamento, e nao calculado
+   * no relatorio, porque a regra depende da origem: compra no cartao segue o
+   * ciclo de fechamento, movimento de conta segue o calendario. Quem sabe
+   * disso e o momento da importacao.
+   */
+  readonly competencia: Competencia;
   /** Sempre positivo, sempre inteiro. Ver nota no topo do arquivo. */
   readonly valorCentavos: number;
   readonly descricao: string;
@@ -71,6 +82,11 @@ interface LancamentoBase {
   readonly origem?: OrigemLancamento;
   readonly precisaRevisao?: boolean;
   readonly motivoRevisao?: MotivoRevisao;
+  /**
+   * Estorno ou transferencia entre contas proprias. Ausente na maioria dos
+   * lancamentos. Muda como o relatorio soma: ver `natureza.ts`.
+   */
+  readonly natureza?: Natureza;
   /**
    * Separa a vida pessoal da empresa. Existe desde a primeira versao, ainda
    * que o modulo fiscal so chegue na sprint 7: incluir o campo agora custa
