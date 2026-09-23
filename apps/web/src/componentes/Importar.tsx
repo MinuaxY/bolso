@@ -9,8 +9,11 @@ import { converter, paraComparacao } from '../conversao.js';
 import { dataCompleta, formatarCentavos, plural } from '../formato.js';
 
 const NOME_DA_FONTE: Record<string, string> = {
-  'nubank-credito': 'Nubank — fatura do cartão',
-  'nubank-debito': 'Nubank — extrato da conta',
+  'nubank-credito': 'Nubank — fatura do cartão (CSV)',
+  'nubank-debito': 'Nubank — extrato da conta (CSV)',
+  'xp-fatura': 'XP — fatura do cartão (CSV)',
+  'ofx-cartao': 'OFX — fatura de cartão',
+  'ofx-conta': 'OFX — extrato de conta',
   generico: 'Arquivo genérico',
 };
 
@@ -46,7 +49,7 @@ export function Importar({
     try {
       const texto = await lerTextoDoArquivo(arquivo);
       const leitura = lerArquivo(texto);
-      setEhCartao(leitura.fonte === 'nubank-credito');
+      setEhCartao(leitura.ehCartao);
       setPrevia({ nomeArquivo: arquivo.name, leitura });
     } catch (causa) {
       setPrevia(null);
@@ -111,13 +114,13 @@ export function Importar({
       >
         <h2>Importar extrato</h2>
         <p>
-          Arraste aqui o arquivo CSV que o seu banco exporta, ou escolha abaixo. O arquivo é lido
-          no seu navegador e não sai desta máquina.
+          Arraste aqui o arquivo que o seu banco exporta — CSV ou OFX —, ou escolha abaixo. O
+          arquivo é lido no seu navegador e não sai desta máquina.
         </p>
         <input
           ref={entrada}
           type="file"
-          accept=".csv,.txt,text/csv,text/plain"
+          accept=".csv,.ofx,.qfx,.txt,text/csv,text/plain,application/x-ofx"
           onChange={(evento) => {
             void receber(evento.target.files?.[0]);
           }}
@@ -149,9 +152,16 @@ export function Importar({
               <div>
                 <dt>Formato do arquivo</dt>
                 <dd>
-                  separador <code>{previa.leitura.dialeto.delimitador === ';' ? ';' : ','}</code>,
-                  data {previa.leitura.dialeto.formatoData === 'iso' ? 'AAAA-MM-DD' : 'DD/MM/AAAA'},
-                  decimal com {previa.leitura.dialeto.decimalVirgula ? 'vírgula' : 'ponto'}
+                  {previa.leitura.dialeto.delimitador === 'OFX' ? (
+                    <>OFX: data e valor em campo próprio, com identificador por transação</>
+                  ) : (
+                    <>
+                      separador{' '}
+                      <code>{previa.leitura.dialeto.delimitador === ';' ? ';' : ','}</code>, data{' '}
+                      {previa.leitura.dialeto.formatoData === 'iso' ? 'AAAA-MM-DD' : 'DD/MM/AAAA'},
+                      decimal com {previa.leitura.dialeto.decimalVirgula ? 'vírgula' : 'ponto'}
+                    </>
+                  )}
                 </dd>
               </div>
               <div>

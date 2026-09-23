@@ -13,6 +13,7 @@
  * nova.
  */
 
+import type { Natureza } from './natureza.js';
 import { normalizar } from './texto.js';
 import type { DataCivil } from './tipos.js';
 
@@ -27,21 +28,40 @@ export interface ItemDeduplicavel {
    * inteiro: e identidade de verdade, nao heuristica.
    */
   readonly identificadorBanco?: string;
+  /**
+   * Estorno ou transferencia. Entra na chave porque o identificador do banco
+   * sozinho NAO e identidade: ver a nota em `chaveDeDuplicacao`.
+   */
+  readonly natureza?: Natureza;
 }
 
 /**
  * Chave de comparacao de um lancamento.
  *
- * Com identificador do banco, a chave e ele. Sem identificador, a chave e a
- * combinacao de data, valor e descricao normalizada — que e o mais proximo de
+ * Com identificador do banco, a chave sai dele. Sem identificador, sai da
+ * combinacao de data, valor e descricao normalizada — o mais proximo de
  * identidade que um extrato de cartao permite.
+ *
+ * DUAS CORRECOES QUE SO O DADO REAL ENSINOU, no extrato de setembro de 2026:
+ *
+ * 1. O identificador do banco NAO e unico. Quando uma compra e estornada, o
+ *    CSV do Nubank da o MESMO UUID para a compra e para o estorno dela. Sem a
+ *    natureza na chave, um dos dois some na importacao e o mes fecha errado.
+ *
+ * 2. O mesmo estorno tem identificador diferente conforme o formato: o CSV
+ *    escreve o UUID puro e o OFX acrescenta `:reversal`. Quem exportar os dois
+ *    formatos do mesmo periodo importaria o estorno duas vezes. Por isso a
+ *    chave usa a raiz do identificador, antes dos dois pontos.
  */
 export function chaveDeDuplicacao(item: ItemDeduplicavel): string {
+  const natureza = item.natureza ?? '';
+
   if (item.identificadorBanco !== undefined && item.identificadorBanco.length > 0) {
-    return `banco:${item.identificadorBanco}`;
+    const raiz = item.identificadorBanco.split(':')[0] ?? item.identificadorBanco;
+    return `banco:${raiz}|${natureza}`;
   }
 
-  return `heuristica:${item.data}|${String(item.valorCentavos)}|${normalizar(item.descricaoOriginal)}`;
+  return `heuristica:${item.data}|${String(item.valorCentavos)}|${normalizar(item.descricaoOriginal)}|${natureza}`;
 }
 
 export interface ResultadoImportacao<T> {

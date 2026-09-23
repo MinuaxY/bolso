@@ -43,7 +43,7 @@ qualquer pessoa usar isto sem pagar nada.
 
 | Módulo | O que entrega |
 |---|---|
-| Importação | CSV do Nubank já mapeado, mapeador para qualquer outro CSV, OFX, com prévia e deduplicação |
+| Importação | OFX de qualquer banco, CSV do Nubank e da XP já mapeados, mapeador para qualquer outro CSV, com prévia e deduplicação |
 | Categorização | Motor de regras por palavra-chave, editável, com fila de revisão para o que não casar |
 | Cartão de crédito | Fatura por ciclo de fechamento, gasto por categoria, assinaturas recorrentes |
 | Parcelas | Detecta `3/10`, projeta as parcelas futuras e mostra o quanto já está comprometido |
@@ -83,8 +83,10 @@ Três pacotes: `packages/core` tem o domínio em TypeScript puro, sem dependênc
 nenhuma; `packages/parsers` lê os arquivos de banco; `apps/web` é a interface. As
 decisões de código estão em [`docs/convencoes.md`](docs/convencoes.md).
 
-Validado contra 15 extratos reais: 663 linhas lidas, zero erros de leitura, quatro
-dialetos diferentes do mesmo banco reconhecidos, 73% categorizado automaticamente.
+Validado contra 20 extratos reais de dois bancos, em CSV e OFX: 758 linhas lidas, zero
+erros de leitura, quatro dialetos diferentes do mesmo banco reconhecidos, 73%
+categorizado automaticamente. O mesmo extrato exportado nos dois formatos produz
+resultado idêntico e não duplica na importação.
 
 ## Projeto de extensão
 

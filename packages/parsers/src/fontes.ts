@@ -9,10 +9,12 @@
  */
 
 import { classificarNatureza } from '@bolso/core';
+import type { Parcela } from '@bolso/core';
 
 import { chaveDeColuna, detectarDelimitador, lerCsv, removerBom } from './csv.js';
 import { analisarData, detectarFormatoData } from './datas.js';
 import { analisarValorCentavos, detectarDecimalVirgula } from './dinheiro.js';
+import { ehOfx, lerOfx } from './ofx.js';
 import type {
   Dialeto,
   ErroLinha,
@@ -25,6 +27,7 @@ import type {
 interface FonteConhecida {
   readonly id: IdFonte;
   readonly mapeamento: Mapeamento;
+  readonly ehCartao: boolean;
   reconhece(colunas: readonly string[]): boolean;
 }
 
@@ -32,6 +35,7 @@ const FONTES: readonly FonteConhecida[] = [
   {
     // Fatura do cartao: `date,title,amount`, despesa como positivo.
     id: 'nubank-credito',
+    ehCartao: true,
     mapeamento: { data: 0, descricao: 1, valor: 2, despesaPositiva: true },
     reconhece: (colunas) =>
       colunas.length >= 3 &&
@@ -42,6 +46,7 @@ const FONTES: readonly FonteConhecida[] = [
   {
     // Extrato de conta: `Data,Valor,Identificador,Descricao`, saida negativa.
     id: 'nubank-debito',
+    ehCartao: false,
     mapeamento: { data: 0, valor: 1, identificador: 2, descricao: 3, despesaPositiva: false },
     reconhece: (colunas) =>
       colunas.length >= 4 &&
@@ -50,7 +55,35 @@ const FONTES: readonly FonteConhecida[] = [
       colunas[2] === 'identificador' &&
       colunas[3] === 'descricao',
   },
+  {
+    // Fatura da XP: `Data;Estabelecimento;Portador;Valor;Parcela`, valores
+    // escritos como `R$ 22,45` e despesa positiva. A coluna `Portador` diz
+    // qual cartao da conta gastou; o Bolso ainda nao usa, e ela carrega nome
+    // de pessoa, entao fica de fora ate ter uso claro.
+    id: 'xp-fatura',
+    ehCartao: true,
+    mapeamento: { data: 0, descricao: 1, valor: 3, parcela: 4, despesaPositiva: true },
+    reconhece: (colunas) =>
+      colunas.length >= 4 && colunas[0] === 'data' && colunas[1] === 'estabelecimento',
+  },
 ];
+
+/**
+ * Le a coluna de parcelamento de uma fatura que tem uma.
+ *
+ * A XP escreve `3 de 10`, e escreve `-` quando a compra e a vista. Quando o
+ * formato nao bate, devolve `undefined` em vez de inventar parcela.
+ */
+function lerColunaParcela(bruto: string): Parcela | undefined {
+  const achado = /(\d{1,3})\s*de\s*(\d{1,3})/i.exec(bruto);
+  if (achado === null) return undefined;
+
+  const atual = Number(achado[1]);
+  const total = Number(achado[2]);
+  if (atual < 1 || total < 1 || atual > total) return undefined;
+
+  return { atual, total };
+}
 
 const PISTAS: Record<'data' | 'valor' | 'descricao' | 'identificador', readonly RegExp[]> = {
   data: [/^data/, /^date/, /lancamento$/, /^dia$/, /movimenta/],
@@ -160,6 +193,11 @@ function lerLinhas(
         ? undefined
         : (campos[mapeamento.identificador] ?? '').trim();
 
+    const parcela =
+      mapeamento.parcela === undefined
+        ? undefined
+        : lerColunaParcela(campos[mapeamento.parcela] ?? '');
+
     lancamentos.push({
       data,
       valorCentavos: Math.abs(valor),
@@ -169,6 +207,7 @@ function lerLinhas(
         ? { identificadorBanco: identificador }
         : {}),
       ...(natureza !== undefined ? { natureza } : {}),
+      ...(parcela !== undefined ? { parcela } : {}),
       linha: numeroLinha,
     });
   });
@@ -190,6 +229,10 @@ export interface OpcoesLeitura {
  */
 export function lerArquivo(texto: string, opcoes: OpcoesLeitura = {}): Leitura {
   const conteudo = removerBom(texto);
+
+  // OFX antes de tudo: e outro formato, nao outro dialeto de CSV.
+  if (ehOfx(conteudo)) return lerOfx(conteudo);
+
   const primeiraQuebra = conteudo.search(/\r|\n/);
   const primeiraLinha = primeiraQuebra < 0 ? conteudo : conteudo.slice(0, primeiraQuebra);
 
@@ -232,5 +275,9 @@ export function lerArquivo(texto: string, opcoes: OpcoesLeitura = {}): Leitura {
 
   const { lancamentos, erros } = lerLinhas(corpo, mapeamento, dialeto, despesaPositiva);
 
-  return { fonte, dialeto, lancamentos, erros };
+  // Arquivo desconhecido: se nao ha valor negativo, o arquivo so tem despesa,
+  // que e o jeito de uma fatura. E palpite, e a tela deixa corrigir.
+  const ehCartao = conhecida?.ehCartao ?? despesaPositiva;
+
+  return { fonte, ehCartao, dialeto, lancamentos, erros };
 }

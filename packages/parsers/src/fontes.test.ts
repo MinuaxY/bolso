@@ -40,6 +40,49 @@ const BANCO_DESCONHECIDO = `Data do Lançamento;Histórico;Valor (R$)
 16/07/2026;RENDIMENTO POUPANCA;12,34
 `;
 
+/** Fatura da XP: `;`, data brasileira, `R$ 22,45` e coluna propria de parcela. */
+const XP_FATURA = `﻿Data;Estabelecimento;Portador;Valor;Parcela
+02/09/2026;DM*EXEMPLOCOM;FULANO DE TAL;R$ 22,45;-
+05/09/2026;Pagamento de fatura;FULANO DE TAL;R$ -113,85; de 1
+06/09/2026;LOJA EXEMPLO;FULANO DE TAL;R$ 300,00;3 de 10
+`;
+
+describe('fatura da XP', () => {
+  const leitura = lerArquivo(XP_FATURA);
+
+  it('reconhece o cabecalho e sabe que e cartao', () => {
+    expect(leitura.fonte).toBe('xp-fatura');
+    expect(leitura.ehCartao).toBe(true);
+  });
+
+  it('le valor escrito com simbolo de moeda e virgula decimal', () => {
+    expect(leitura.lancamentos[0]).toMatchObject({ valorCentavos: 2245, tipo: 'despesa' });
+  });
+
+  it('engole a marca de bytes que o Excel deixa no comeco', () => {
+    expect(leitura.lancamentos[0]?.data).toBe('2026-09-02');
+  });
+
+  it('usa a coluna de parcela, em vez de procurar na descricao', () => {
+    expect(leitura.lancamentos[2]?.parcela).toEqual({ atual: 3, total: 10 });
+  });
+
+  it('ignora a coluna de parcela quando ela nao diz nada', () => {
+    // A XP escreve `-` para compra a vista e ` de 1` quando nao ha parcelamento.
+    expect(leitura.lancamentos[0]?.parcela).toBeUndefined();
+    expect(leitura.lancamentos[1]?.parcela).toBeUndefined();
+  });
+
+  it('trata o pagamento da fatura como transferencia', () => {
+    expect(leitura.lancamentos[1]?.natureza).toBe('transferencia');
+  });
+
+  it('nao importa o nome do portador, que e dado pessoal sem uso hoje', () => {
+    const texto = JSON.stringify(leitura.lancamentos);
+    expect(texto).not.toContain('FULANO');
+  });
+});
+
 describe('detectarFonte', () => {
   it('reconhece a fatura do cartao', () => {
     expect(detectarFonte(['date', 'title', 'amount'])).toBe('nubank-credito');

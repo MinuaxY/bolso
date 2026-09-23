@@ -15,6 +15,7 @@ export {
   formatarCentavos,
 } from './dinheiro.js';
 export { detectarFonte, lerArquivo, sugerirMapeamento } from './fontes.js';
+export { ehOfx, lerOfx } from './ofx.js';
 export type { OpcoesLeitura } from './fontes.js';
 export type {
   Dialeto,

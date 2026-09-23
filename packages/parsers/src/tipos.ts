@@ -1,4 +1,4 @@
-import type { DataCivil, Natureza, TipoLancamento } from '@bolso/core';
+import type { DataCivil, Natureza, Parcela, TipoLancamento } from '@bolso/core';
 
 /**
  * Uma linha de extrato ja lida e normalizada, antes de virar lancamento.
@@ -16,6 +16,12 @@ export interface LancamentoImportado {
   readonly identificadorBanco?: string;
   /** Estorno ou transferencia entre contas proprias, quando for o caso. */
   readonly natureza?: Natureza;
+  /**
+   * Parcelamento informado pelo proprio arquivo, quando ha coluna para isso.
+   * A fatura da XP tem; a do Nubank so escreve na descricao, e ai quem
+   * descobre e `detectarParcela`.
+   */
+  readonly parcela?: Parcela;
   /** Linha do arquivo, contando o cabecalho como 1. Serve para apontar erro. */
   readonly linha: number;
 }
@@ -45,11 +51,24 @@ export interface Dialeto {
   readonly decimalVirgula: boolean;
 }
 
-export type IdFonte = 'nubank-credito' | 'nubank-debito' | 'generico';
+export type IdFonte =
+  | 'nubank-credito'
+  | 'nubank-debito'
+  | 'xp-fatura'
+  | 'ofx-conta'
+  | 'ofx-cartao'
+  | 'generico';
 
 /** Resultado de ler um arquivo inteiro. */
 export interface Leitura {
   readonly fonte: IdFonte;
+  /**
+   * Se o arquivo e fatura de cartao. Vem do proprio arquivo quando ele diz —
+   * o OFX declara na estrutura, e o cabecalho identifica as faturas
+   * conhecidas. Para arquivo desconhecido e um palpite, e a tela deixa
+   * corrigir.
+   */
+  readonly ehCartao: boolean;
   readonly dialeto: Dialeto;
   readonly lancamentos: readonly LancamentoImportado[];
   /** Linhas recusadas, com motivo. Uma linha ruim nao derruba o arquivo. */
@@ -62,6 +81,8 @@ export interface Mapeamento {
   readonly valor: number;
   readonly descricao: number;
   readonly identificador?: number;
+  /** Coluna com o parcelamento no formato `3 de 10`, quando o arquivo tem uma. */
+  readonly parcela?: number;
   /**
    * Alguns bancos escrevem despesa como positivo (fatura de cartao), outros
    * como negativo (conta corrente). Verdadeiro inverte a leitura do sinal.

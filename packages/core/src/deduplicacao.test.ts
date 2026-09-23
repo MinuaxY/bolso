@@ -37,6 +37,58 @@ describe('chaveDeDuplicacao', () => {
   });
 });
 
+describe('chaveDeDuplicacao — o identificador do banco nao e identidade', () => {
+  it('separa a compra do estorno que carrega o MESMO identificador', () => {
+    // Achado no extrato real de setembro de 2026: quando uma compra e
+    // estornada, o CSV do Nubank repete o UUID da compra no estorno. Sem a
+    // natureza na chave, um dos dois sumiria na importacao.
+    const compra = chaveDeDuplicacao({
+      data: '2026-09-09',
+      valorCentavos: 5100,
+      descricaoOriginal: 'Compra no debito - LANCHONETE',
+      identificadorBanco: 'aaaa-1111',
+    });
+    const estorno = chaveDeDuplicacao({
+      data: '2026-09-09',
+      valorCentavos: 5100,
+      descricaoOriginal: 'Estorno - Compra no debito - LANCHONETE',
+      identificadorBanco: 'aaaa-1111',
+      natureza: 'estorno',
+    });
+
+    expect(compra).not.toBe(estorno);
+  });
+
+  it('reconhece o mesmo estorno nos dois formatos do mesmo banco', () => {
+    // O CSV escreve o UUID puro; o OFX acrescenta `:reversal`.
+    const doCsv = chaveDeDuplicacao({
+      data: '2026-09-09',
+      valorCentavos: 5100,
+      descricaoOriginal: 'Estorno - Compra no debito',
+      identificadorBanco: 'aaaa-1111',
+      natureza: 'estorno',
+    });
+    const doOfx = chaveDeDuplicacao({
+      data: '2026-09-09',
+      valorCentavos: 5100,
+      descricaoOriginal: 'Estorno - Compra no debito',
+      identificadorBanco: 'aaaa-1111:reversal',
+      natureza: 'estorno',
+    });
+
+    expect(doCsv).toBe(doOfx);
+  });
+
+  it('a heuristica tambem separa por natureza', () => {
+    const base = {
+      data: '2026-09-09',
+      valorCentavos: 5100,
+      descricaoOriginal: 'Loja',
+    };
+    expect(chaveDeDuplicacao(base)).not.toBe(chaveDeDuplicacao({ ...base, natureza: 'estorno' }));
+  });
+});
+
 describe('classificarImportacao', () => {
   it('reimportar o mesmo arquivo nao duplica nada', () => {
     const arquivo = [

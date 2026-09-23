@@ -91,7 +91,9 @@ export function converter(
     };
   }
 
-  const parcela = detectarParcela(importado.descricaoOriginal);
+  // A fatura da XP tem coluna de parcela; a do Nubank so escreve na descricao.
+  // Quando o arquivo informa, ele vence — ler texto e o ultimo recurso.
+  const parcela = importado.parcela ?? detectarParcela(importado.descricaoOriginal);
 
   const despesa: Despesa = {
     ...base,
@@ -103,7 +105,7 @@ export function converter(
     formaPagamento: contexto.ehCartao
       ? 'Credito'
       : (classificacao.formaPagamento ?? formaProvavel(importado.descricaoOriginal)),
-    ...(parcela !== null ? { parcela } : {}),
+    ...(parcela !== null && parcela !== undefined ? { parcela } : {}),
   };
 
   return despesa;
@@ -118,5 +120,6 @@ export function paraComparacao(lancamento: Lancamento): ItemDeduplicavel {
     ...(lancamento.origem?.identificadorBanco !== undefined
       ? { identificadorBanco: lancamento.origem.identificadorBanco }
       : {}),
+    ...(lancamento.natureza !== undefined ? { natureza: lancamento.natureza } : {}),
   };
 }
