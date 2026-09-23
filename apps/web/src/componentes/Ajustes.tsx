@@ -63,6 +63,8 @@ export function Ajustes({
       await aoRestaurar(conteudo.lancamentos, {
         diaFechamento: ajustesDoBackup.diaFechamento,
         regrasProprias: ajustesDoBackup.regrasProprias,
+        // Backup gerado antes do modulo fiscal nao tem esse bloco.
+        fiscal: ajustesDoBackup.fiscal ?? ajustes.fiscal,
       });
       setMensagem(
         `Backup restaurado: ${plural(conteudo.lancamentos.length, 'lançamento', 'lançamentos')}.`,

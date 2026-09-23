@@ -47,3 +47,10 @@ export function dataCompleta(data: DataCivil): string {
 export function plural(quantidade: number, singular: string, plural_: string): string {
   return `${String(quantidade)} ${quantidade === 1 ? singular : plural_}`;
 }
+
+/** `8.08` vira `8,08%`. Percentual com ponto num app de financas brasileiro
+ *  parece erro de programa, e este e o numero que a pessoa vai comparar com a
+ *  guia. */
+export function formatarPercentual(valor: number, casas = 2): string {
+  return `${valor.toFixed(casas).replace('.', ',')}%`;
+}

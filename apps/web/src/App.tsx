@@ -5,18 +5,20 @@ import { useEffect, useMemo, useState } from 'react';
 import { Ajustes } from './componentes/Ajustes.js';
 import { Cartao } from './componentes/Cartao.js';
 import { Extrato } from './componentes/Extrato.js';
+import { Fiscal } from './componentes/Fiscal.js';
 import { Importar } from './componentes/Importar.js';
 import { Painel } from './componentes/Painel.js';
 import { Revisao } from './componentes/Revisao.js';
 import { useBolso } from './estado.js';
 import { nomeCompetencia } from './formato.js';
 
-type Aba = 'painel' | 'extrato' | 'cartao' | 'revisao' | 'importar' | 'ajustes';
+type Aba = 'painel' | 'extrato' | 'cartao' | 'fiscal' | 'revisao' | 'importar' | 'ajustes';
 
 const ABAS: readonly { id: Aba; nome: string }[] = [
   { id: 'painel', nome: 'Painel' },
   { id: 'extrato', nome: 'Extrato' },
   { id: 'cartao', nome: 'Cartão' },
+  { id: 'fiscal', nome: 'DAS' },
   { id: 'revisao', nome: 'Revisão' },
   { id: 'importar', nome: 'Importar' },
   { id: 'ajustes', nome: 'Ajustes' },
@@ -123,7 +125,7 @@ export function App() {
       </nav>
 
       <main>
-        {vazio && aba !== 'importar' && aba !== 'ajustes' ? (
+        {vazio && aba !== 'importar' && aba !== 'ajustes' && aba !== 'fiscal' ? (
           <section className="cartao centro-texto">
             <h2>Comece importando um extrato</h2>
             <p>
@@ -160,6 +162,14 @@ export function App() {
                 lancamentos={bolso.lancamentos}
                 competencia={competencia}
                 diaFechamento={bolso.ajustes.diaFechamento}
+              />
+            )}
+            {aba === 'fiscal' && (
+              <Fiscal
+                lancamentos={bolso.lancamentos}
+                competencia={competencia}
+                ajustes={bolso.ajustes}
+                aoSalvar={bolso.salvarAjustes}
               />
             )}
             {aba === 'revisao' && (

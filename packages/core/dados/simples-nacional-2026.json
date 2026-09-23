@@ -1,0 +1,192 @@
+{
+  "anoVigencia": 2026,
+  "fundamento": "Lei Complementar 123/2006, anexos I a V. As tabelas nao mudam desde 2018 e a LC 214/2025 (reforma tributaria) nao alterou os percentuais para 2026.",
+  "conferidoEm": "2026-09-23",
+  "limiteAnualCentavos": 480000000,
+  "sublimiteCentavos": 360000000,
+  "fatorRMinimoBase": 2800,
+  "anexos": {
+    "I": {
+      "nome": "Comercio",
+      "faixas": [
+        {
+          "ate": 18000000,
+          "aliquotaBase": 400,
+          "deduzirCentavos": 0
+        },
+        {
+          "ate": 36000000,
+          "aliquotaBase": 730,
+          "deduzirCentavos": 594000
+        },
+        {
+          "ate": 72000000,
+          "aliquotaBase": 950,
+          "deduzirCentavos": 1386000
+        },
+        {
+          "ate": 180000000,
+          "aliquotaBase": 1070,
+          "deduzirCentavos": 2250000
+        },
+        {
+          "ate": 360000000,
+          "aliquotaBase": 1430,
+          "deduzirCentavos": 8730000
+        },
+        {
+          "ate": 480000000,
+          "aliquotaBase": 1900,
+          "deduzirCentavos": 37800000
+        }
+      ]
+    },
+    "II": {
+      "nome": "Industria",
+      "faixas": [
+        {
+          "ate": 18000000,
+          "aliquotaBase": 450,
+          "deduzirCentavos": 0
+        },
+        {
+          "ate": 36000000,
+          "aliquotaBase": 780,
+          "deduzirCentavos": 594000
+        },
+        {
+          "ate": 72000000,
+          "aliquotaBase": 1000,
+          "deduzirCentavos": 1386000
+        },
+        {
+          "ate": 180000000,
+          "aliquotaBase": 1120,
+          "deduzirCentavos": 2250000
+        },
+        {
+          "ate": 360000000,
+          "aliquotaBase": 1470,
+          "deduzirCentavos": 8550000
+        },
+        {
+          "ate": 480000000,
+          "aliquotaBase": 3000,
+          "deduzirCentavos": 72000000
+        }
+      ]
+    },
+    "III": {
+      "nome": "Servicos (com Fator R a favor)",
+      "faixas": [
+        {
+          "ate": 18000000,
+          "aliquotaBase": 600,
+          "deduzirCentavos": 0
+        },
+        {
+          "ate": 36000000,
+          "aliquotaBase": 1120,
+          "deduzirCentavos": 936000
+        },
+        {
+          "ate": 72000000,
+          "aliquotaBase": 1350,
+          "deduzirCentavos": 1764000
+        },
+        {
+          "ate": 180000000,
+          "aliquotaBase": 1600,
+          "deduzirCentavos": 3564000
+        },
+        {
+          "ate": 360000000,
+          "aliquotaBase": 2100,
+          "deduzirCentavos": 12564000
+        },
+        {
+          "ate": 480000000,
+          "aliquotaBase": 3300,
+          "deduzirCentavos": 64800000
+        }
+      ]
+    },
+    "IV": {
+      "nome": "Servicos sem CPP no DAS",
+      "faixas": [
+        {
+          "ate": 18000000,
+          "aliquotaBase": 450,
+          "deduzirCentavos": 0
+        },
+        {
+          "ate": 36000000,
+          "aliquotaBase": 900,
+          "deduzirCentavos": 810000
+        },
+        {
+          "ate": 72000000,
+          "aliquotaBase": 1020,
+          "deduzirCentavos": 1242000
+        },
+        {
+          "ate": 180000000,
+          "aliquotaBase": 1400,
+          "deduzirCentavos": 3978000
+        },
+        {
+          "ate": 360000000,
+          "aliquotaBase": 2200,
+          "deduzirCentavos": 18378000
+        },
+        {
+          "ate": 480000000,
+          "aliquotaBase": 3300,
+          "deduzirCentavos": 82800000
+        }
+      ]
+    },
+    "V": {
+      "nome": "Servicos (Fator R abaixo de 28%)",
+      "faixas": [
+        {
+          "ate": 18000000,
+          "aliquotaBase": 1550,
+          "deduzirCentavos": 0
+        },
+        {
+          "ate": 36000000,
+          "aliquotaBase": 1800,
+          "deduzirCentavos": 450000
+        },
+        {
+          "ate": 72000000,
+          "aliquotaBase": 1950,
+          "deduzirCentavos": 990000
+        },
+        {
+          "ate": 180000000,
+          "aliquotaBase": 2050,
+          "deduzirCentavos": 1710000
+        },
+        {
+          "ate": 360000000,
+          "aliquotaBase": 2300,
+          "deduzirCentavos": 6210000
+        },
+        {
+          "ate": 480000000,
+          "aliquotaBase": 3050,
+          "deduzirCentavos": 54000000
+        }
+      ]
+    }
+  },
+  "mei": {
+    "salarioMinimoCentavos": 162100,
+    "limiteAnualCentavos": 8100000,
+    "inssBase": 500,
+    "icmsCentavos": 100,
+    "issCentavos": 500
+  }
+}

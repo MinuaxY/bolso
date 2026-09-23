@@ -10,7 +10,7 @@
  * que guarda extrato bancario custa risco de cadeia de suprimento.
  */
 
-import type { Lancamento, RegraCategorizacao } from '@bolso/core';
+import type { Anexo, AtividadeMei, Lancamento, RegraCategorizacao } from '@bolso/core';
 
 import { cofreAberto } from './cofre.js';
 import type { Cofre } from './cofre.js';
@@ -20,14 +20,37 @@ const VERSAO = 1;
 const LANCAMENTOS = 'lancamentos';
 const AJUSTES = 'ajustes';
 
+/** Como a empresa da pessoa e tributada. Vazio quando ela nao tem CNPJ. */
+export interface AjustesFiscais {
+  readonly regime: 'nenhum' | 'simples' | 'mei';
+  readonly anexo: Anexo;
+  /** Atividades sujeitas ao Fator R trocam de anexo conforme a folha. */
+  readonly sujeitoAoFatorR: boolean;
+  readonly folha12Centavos: number;
+  readonly atividadeMei: AtividadeMei;
+}
+
 export interface Ajustes {
   /** Dia em que a fatura do cartao fecha. O VBA de origem fixava em 5. */
   readonly diaFechamento: number;
   /** Regras do usuario. Vazio significa usar as de fabrica. */
   readonly regrasProprias: readonly RegraCategorizacao[];
+  readonly fiscal: AjustesFiscais;
 }
 
-export const AJUSTES_INICIAIS: Ajustes = { diaFechamento: 5, regrasProprias: [] };
+export const FISCAL_INICIAL: AjustesFiscais = {
+  regime: 'nenhum',
+  anexo: 'III',
+  sujeitoAoFatorR: true,
+  folha12Centavos: 0,
+  atividadeMei: 'servicos',
+};
+
+export const AJUSTES_INICIAIS: Ajustes = {
+  diaFechamento: 5,
+  regrasProprias: [],
+  fiscal: FISCAL_INICIAL,
+};
 
 /**
  * O ponto onde a cifragem vai entrar.
@@ -159,7 +182,12 @@ export async function carregarAjustes(): Promise<Ajustes> {
   const bruto = await transacao(AJUSTES, 'readonly', (loja) =>
     promessa(loja.get('ajustes') as IDBRequest<{ chave: string; valor: Ajustes } | undefined>),
   );
-  return bruto?.valor ?? AJUSTES_INICIAIS;
+  // Quem ja usava o Bolso antes do modulo fiscal tem ajustes sem esse bloco.
+  // Completar na leitura evita migracao de dado gravado no navegador.
+  const guardados = bruto?.valor;
+  if (guardados === undefined) return AJUSTES_INICIAIS;
+
+  return { ...AJUSTES_INICIAIS, ...guardados, fiscal: { ...FISCAL_INICIAL, ...guardados.fiscal } };
 }
 
 export async function gravarAjustes(ajustes: Ajustes): Promise<void> {

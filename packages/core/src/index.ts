@@ -75,3 +75,25 @@ export type {
   PontoMensal,
   ResumoMes,
 } from './relatorios.js';
+
+export {
+  TABELA_SIMPLES,
+  anexoPorFatorR,
+  calcularDas,
+  calcularDasMei,
+  calcularFatorRBase,
+  compararDas,
+  faixaDe,
+  rbt12Proporcional,
+} from './simples.js';
+export type {
+  Anexo,
+  AtividadeMei,
+  AvisoSimples,
+  Comparacao,
+  EntradaDas,
+  FaixaSimples,
+  ResultadoDas,
+  TabelaSimples,
+  Veredito,
+} from './simples.js';
