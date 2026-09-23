@@ -4,9 +4,12 @@
 *.qif
 *.csv
 !docs/**/exemplo-*.csv
-extratos/
-faturas/
-dados/
+# Ancorado na raiz de proposito: `dados/` solto bloquearia
+# packages/core/dados/, que guarda as regras de categorizacao e PRECISA ser
+# versionado. Ja aconteceu uma vez.
+/extratos/
+/faturas/
+/dados/
 
 # Dependências
 node_modules/

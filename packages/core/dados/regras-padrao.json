@@ -1,0 +1,987 @@
+[
+  {
+    "palavraChave": "ifood",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "iFood",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "99food",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "99Food",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "rappi",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Rappi",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "daki",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Daki",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "zedelivery",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Zé Delivery",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "mercato",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Mercado",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "nagumo",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Mercado",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "carrefour",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Mercado",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "paodeacucar",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Mercado",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "mercado",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Mercado",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "padaria",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Padaria",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "restaurante",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Restaurante",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "lanchonete",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Lanchonete",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "99app",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "99 (Corrida)",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "99 - viagem",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "99 (Corrida)",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "uber trip",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "Uber",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "uber",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "Uber",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "bilh unico",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "Bilhete Único",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "bilhete",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "Bilhete Único",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "recargapay",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "Bilhete Único",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "posto",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "Combustível",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "ipiranga",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "Combustível",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "shell",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "Combustível",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "estacionamento",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "Estacionamento",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "99",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "99 (verificar: corrida ou food?)",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "steam",
+    "aplicaEm": "despesa",
+    "categoria": "Lazer",
+    "descricaoPadrao": "Steam",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "playstation",
+    "aplicaEm": "despesa",
+    "categoria": "Lazer",
+    "descricaoPadrao": "PlayStation Store",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "xbox",
+    "aplicaEm": "despesa",
+    "categoria": "Lazer",
+    "descricaoPadrao": "Xbox / Game Pass",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "epicgames",
+    "aplicaEm": "despesa",
+    "categoria": "Lazer",
+    "descricaoPadrao": "Epic Games",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "nintendo",
+    "aplicaEm": "despesa",
+    "categoria": "Lazer",
+    "descricaoPadrao": "Nintendo eShop",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "riot games",
+    "aplicaEm": "despesa",
+    "categoria": "Lazer",
+    "descricaoPadrao": "Riot Games",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "airbnb",
+    "aplicaEm": "despesa",
+    "categoria": "Lazer",
+    "descricaoPadrao": "Airbnb",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "booking.com",
+    "aplicaEm": "despesa",
+    "categoria": "Lazer",
+    "descricaoPadrao": "Booking.com",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "cinema",
+    "aplicaEm": "despesa",
+    "categoria": "Lazer",
+    "descricaoPadrao": "Cinema",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "ingresso",
+    "aplicaEm": "despesa",
+    "categoria": "Lazer",
+    "descricaoPadrao": "Ingresso / Evento",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "netflix",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Netflix",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "amazonprimebr",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Amazon Prime",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "amazon ad free",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Amazon Prime (sem anúncio)",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "amazon prime video",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Amazon Prime Video",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "amazon music",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Amazon Music",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "kindle unlimited",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Kindle Unlimited",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "audible",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Audible",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "amazonmktplc",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Compra Amazon",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "amazon marketplace",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Compra Amazon",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "amazon",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Amazon (verificar)",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "hbo",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "HBO Max",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "disney",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Disney+",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "paramount",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Paramount+",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "globoplay",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Globoplay",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "crunchyroll",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Crunchyroll",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "spotify",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Spotify",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "deezer",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Deezer",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "youtube premium",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "YouTube Premium",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "youtube",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "YouTube Premium",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "apple.com/bill",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Apple (App Store/iCloud)",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "icloud",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "iCloud",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "google one",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Google One",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "google storage",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Google One",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "microsoft 365",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Microsoft 365",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "office 365",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Microsoft 365",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "openai",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "ChatGPT Plus",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "chatgpt",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "ChatGPT Plus",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "anthropic",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Claude Pro",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "claude.ai",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Claude Pro",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "duolingo",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Duolingo",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "multiplus",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Multiplus Clube",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "nubank ultravioleta",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Anuidade Cartão",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "anuidade",
+    "aplicaEm": "despesa",
+    "categoria": "Assinaturas",
+    "descricaoPadrao": "Anuidade Cartão",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "farmacia",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Farmácia",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "drogaria",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Farmácia",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "droga raia",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Farmácia",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "pacheco",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Farmácia",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "espacolazer",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Espaço Laser",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "espacolaser",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Espaço Laser",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "amorsaude",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Plano de Saúde",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "cartao de todos",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Cartão de Todos",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "plano de saude",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Plano de Saúde",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "unimed",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Plano de Saúde",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "dentista",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Dentista",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "academia",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Academia",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "smartfit",
+    "aplicaEm": "despesa",
+    "categoria": "Saude",
+    "descricaoPadrao": "Academia",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "chillibeans",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Chillibeans",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "usaflex",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Vestuário",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "renner",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Vestuário",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "karsten",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Casa",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "pichau",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Eletrônicos",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "kabum",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Eletrônicos",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "dell",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Eletrônicos",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "amsac",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Acessórios",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "mercadolivre",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Mercado Livre",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "mercado livre",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Mercado Livre",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "shopee",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Shopee",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "aliexpress",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "AliExpress",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "shein",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Shein",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "petz",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Pet Shop",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "cobasi",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Pet Shop",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "binance",
+    "aplicaEm": "despesa",
+    "categoria": "Investimentos",
+    "descricaoPadrao": "Aporte Binance",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "tesouro direto",
+    "aplicaEm": "despesa",
+    "categoria": "Investimentos",
+    "descricaoPadrao": "Tesouro Direto",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "xp investimentos",
+    "aplicaEm": "despesa",
+    "categoria": "Investimentos",
+    "descricaoPadrao": "XP Investimentos",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "rico investimentos",
+    "aplicaEm": "despesa",
+    "categoria": "Investimentos",
+    "descricaoPadrao": "Rico",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "clear corretora",
+    "aplicaEm": "despesa",
+    "categoria": "Investimentos",
+    "descricaoPadrao": "Clear",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "btg pactual",
+    "aplicaEm": "despesa",
+    "categoria": "Investimentos",
+    "descricaoPadrao": "BTG Pactual",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "nuinvest",
+    "aplicaEm": "despesa",
+    "categoria": "Investimentos",
+    "descricaoPadrao": "NuInvest",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "inter invest",
+    "aplicaEm": "despesa",
+    "categoria": "Investimentos",
+    "descricaoPadrao": "Inter Invest",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "contabil",
+    "aplicaEm": "despesa",
+    "categoria": "Impostos",
+    "descricaoPadrao": "Contabilidade",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "das simples",
+    "aplicaEm": "despesa",
+    "categoria": "Impostos",
+    "descricaoPadrao": "Imposto DAS",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "darf",
+    "aplicaEm": "despesa",
+    "categoria": "Impostos",
+    "descricaoPadrao": "Imposto DARF",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "faculdade",
+    "aplicaEm": "despesa",
+    "categoria": "Educacao",
+    "descricaoPadrao": "Faculdade",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "udemy",
+    "aplicaEm": "despesa",
+    "categoria": "Educacao",
+    "descricaoPadrao": "Curso Online",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "alura",
+    "aplicaEm": "despesa",
+    "categoria": "Educacao",
+    "descricaoPadrao": "Curso Online",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "internet",
+    "aplicaEm": "despesa",
+    "categoria": "Servicos",
+    "descricaoPadrao": "Internet",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "claro",
+    "aplicaEm": "despesa",
+    "categoria": "Servicos",
+    "descricaoPadrao": "Internet Claro",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "vivo",
+    "aplicaEm": "despesa",
+    "categoria": "Servicos",
+    "descricaoPadrao": "Internet Vivo",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "energisa",
+    "aplicaEm": "despesa",
+    "categoria": "Servicos",
+    "descricaoPadrao": "Energia Elétrica",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "sabesp",
+    "aplicaEm": "despesa",
+    "categoria": "Servicos",
+    "descricaoPadrao": "Água",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "estorno",
+    "aplicaEm": "despesa",
+    "categoria": "Outros",
+    "descricaoPadrao": "Estorno",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "pix",
+    "aplicaEm": "despesa",
+    "categoria": "Outros",
+    "descricaoPadrao": "Pix enviado",
+    "formaPagamento": "Pix",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "salario",
+    "aplicaEm": "receita",
+    "categoria": "Salario",
+    "descricaoPadrao": "Salário mensal",
+    "status": "recebido"
+  },
+  {
+    "palavraChave": "vale aliment",
+    "aplicaEm": "receita",
+    "categoria": "Beneficios",
+    "descricaoPadrao": "Vale alimentação",
+    "status": "recebido"
+  },
+  {
+    "palavraChave": "vale trans",
+    "aplicaEm": "receita",
+    "categoria": "Beneficios",
+    "descricaoPadrao": "Vale transporte",
+    "status": "recebido"
+  },
+  {
+    "palavraChave": "vale refe",
+    "aplicaEm": "receita",
+    "categoria": "Beneficios",
+    "descricaoPadrao": "Vale refeição",
+    "status": "recebido"
+  },
+  {
+    "palavraChave": "pix receb",
+    "aplicaEm": "receita",
+    "categoria": "Pix recebido",
+    "descricaoPadrao": "Pix recebido",
+    "status": "recebido"
+  },
+  {
+    "palavraChave": "reembolso",
+    "aplicaEm": "receita",
+    "categoria": "Reembolso",
+    "descricaoPadrao": "Reembolso",
+    "status": "recebido"
+  },
+  {
+    "palavraChave": "transfer",
+    "aplicaEm": "receita",
+    "categoria": "Transferencia",
+    "descricaoPadrao": "Transferência",
+    "status": "recebido"
+  }
+]
