@@ -4,9 +4,10 @@ Controle financeiro que roda no seu navegador. Você importa o extrato que o seu
 já exporta — CSV ou OFX — e os dados ficam na sua máquina. Nada é enviado para servidor
 nenhum, porque não existe servidor.
 
-> **Status:** sprint 1 de 8 concluída. O núcleo de domínio já existe e está testado;
-> ainda não há interface para usar. O planejamento completo está em
-> [`docs/conceito.md`](docs/conceito.md).
+> **Beta no ar: <https://minuaxy.github.io/bolso/>**
+>
+> Abra e use — não tem cadastro, não tem login, não tem servidor. O planejamento
+> completo está em [`docs/conceito.md`](docs/conceito.md).
 
 ## Para quem
 
@@ -58,18 +59,19 @@ qualquer pessoa usar isto sem pagar nada.
 - Conectar em banco por biblioteca não-oficial ou engenharia reversa.
 - Subir dado financeiro para servidor — nem anônimo, nem para telemetria.
 
-## Como rodar
-
-Ainda não há aplicação para abrir — a interface começa na sprint 2. O que dá para
-rodar hoje é o núcleo e a bateria de testes:
+## Como rodar na sua máquina
 
 ```bash
 npm install
-npm run verificar
+npm run dev -w @bolso/web
 ```
 
-`verificar` roda lint, checagem de tipos e testes com cobertura: exatamente o que a
-esteira do GitHub roda. Se passar aqui, passa lá.
+Abre em <http://localhost:5173>. Para rodar a verificação completa — lint, tipos e
+testes com cobertura, o mesmo que a esteira do GitHub roda:
+
+```bash
+npm run verificar
+```
 
 ## Stack
 
@@ -77,10 +79,12 @@ React + Vite + TypeScript no navegador, núcleo de domínio em TypeScript puro s
 framework e coberto por testes, armazenamento em IndexedDB atrás de uma interface.
 Publicação estática no GitHub Pages.
 
-Já implementado em `packages/core`: motor de categorização por regras ordenadas,
-detecção e projeção de parcelas, ciclo de fatura configurável, deduplicação de
-importação, correção de codificação e aritmética de data civil. As decisões de
-código estão em [`docs/convencoes.md`](docs/convencoes.md).
+Três pacotes: `packages/core` tem o domínio em TypeScript puro, sem dependência
+nenhuma; `packages/parsers` lê os arquivos de banco; `apps/web` é a interface. As
+decisões de código estão em [`docs/convencoes.md`](docs/convencoes.md).
+
+Validado contra 15 extratos reais: 663 linhas lidas, zero erros de leitura, quatro
+dialetos diferentes do mesmo banco reconhecidos, 73% categorizado automaticamente.
 
 ## Projeto de extensão
 

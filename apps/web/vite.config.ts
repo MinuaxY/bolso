@@ -19,8 +19,9 @@ const POLITICA = [
   "connect-src 'none'",
   "base-uri 'none'",
   "form-action 'none'",
-  "frame-ancestors 'none'",
   "object-src 'none'",
+  // `frame-ancestors` nao vale em <meta>, so como cabecalho HTTP — e o GitHub
+  // Pages nao deixa definir cabecalho. Fica registrado em docs/seguranca.md.
 ].join('; ');
 
 function politicaDeSeguranca() {

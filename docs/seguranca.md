@@ -78,6 +78,22 @@ ocupante dessa origem quando subir. O risco desta seção está, hoje, sem ningu
 exercê-lo — mas a condição 1 continua valendo para qualquer projeto futuro publicado
 nesta conta, que é exatamente por que ela está escrita aqui em vez de lembrada.
 
+## 4.1 O que a hospedagem estática não permite
+
+A política de segurança de conteúdo é entregue por `<meta>`, porque o GitHub
+Pages não deixa definir cabeçalho HTTP. Duas consequências:
+
+- **`frame-ancestors` não funciona por `<meta>`** — só como cabeçalho. Ou seja,
+  não há como impedir que a página seja embutida em um `iframe` de outro site.
+  O risco prático é baixo: não existe ação destrutiva de um clique só no Bolso,
+  e o armazenamento de outra origem não alcança o daqui. Se um dia o app for
+  para domínio próprio com hospedagem que permita cabeçalhos, isto se resolve.
+- **Não há `Strict-Transport-Security` nosso** — o GitHub Pages já força HTTPS
+  no domínio `github.io`.
+
+O que importa continua valendo: `connect-src 'none'` funciona por `<meta>`, e é
+ele que bloqueia qualquer saída de dado.
+
 ## 5. O que o Bolso não protege
 
 Ser honesto sobre o limite é parte da segurança.
