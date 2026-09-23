@@ -54,9 +54,10 @@ export interface ResultadoImportacao<T> {
 /**
  * Separa o que e novo do que ja existe, preservando a ordem do arquivo.
  */
-export function classificarImportacao<T extends ItemDeduplicavel>(
+export function classificarImportacao<T>(
   candidatos: readonly T[],
   existentes: readonly ItemDeduplicavel[],
+  paraItem: (candidato: T) => ItemDeduplicavel,
 ): ResultadoImportacao<T> {
   const contagem = new Map<string, number>();
 
@@ -69,7 +70,7 @@ export function classificarImportacao<T extends ItemDeduplicavel>(
   const duplicados: T[] = [];
 
   for (const candidato of candidatos) {
-    const chave = chaveDeDuplicacao(candidato);
+    const chave = chaveDeDuplicacao(paraItem(candidato));
     const restante = contagem.get(chave) ?? 0;
 
     if (restante > 0) {

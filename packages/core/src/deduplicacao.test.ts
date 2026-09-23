@@ -44,11 +44,11 @@ describe('classificarImportacao', () => {
       compra('2026-06-01', 4348, 'Amazon'),
     ];
 
-    const primeira = classificarImportacao(arquivo, []);
+    const primeira = classificarImportacao(arquivo, [], (item) => item);
     expect(primeira.novos).toHaveLength(2);
     expect(primeira.duplicados).toHaveLength(0);
 
-    const segunda = classificarImportacao(arquivo, primeira.novos);
+    const segunda = classificarImportacao(arquivo, primeira.novos, (item) => item);
     expect(segunda.novos).toHaveLength(0);
     expect(segunda.duplicados).toHaveLength(2);
   });
@@ -57,7 +57,7 @@ describe('classificarImportacao', () => {
     // Dois cafes de sete reais na mesma padaria. Nao e duplicata.
     const arquivo = [compra('2026-06-02', 700, 'Padaria'), compra('2026-06-02', 700, 'Padaria')];
 
-    const resultado = classificarImportacao(arquivo, []);
+    const resultado = classificarImportacao(arquivo, [], (item) => item);
     expect(resultado.novos).toHaveLength(2);
   });
 
@@ -69,7 +69,7 @@ describe('classificarImportacao', () => {
       compra('2026-06-02', 700, 'Padaria'),
     ];
 
-    const resultado = classificarImportacao(arquivoMaior, existentes);
+    const resultado = classificarImportacao(arquivoMaior, existentes, (item) => item);
     expect(resultado.novos).toHaveLength(1);
     expect(resultado.duplicados).toHaveLength(2);
   });
@@ -82,7 +82,7 @@ describe('classificarImportacao', () => {
     ];
     const existentes = [compra('2026-06-02', 200, 'B')];
 
-    const resultado = classificarImportacao(arquivo, existentes);
+    const resultado = classificarImportacao(arquivo, existentes, (item) => item);
     expect(resultado.novos.map((l) => l.descricaoOriginal)).toEqual(['A', 'C']);
     expect(resultado.duplicados.map((l) => l.descricaoOriginal)).toEqual(['B']);
   });
@@ -95,7 +95,7 @@ describe('classificarImportacao', () => {
       compra('2026-05-01', 5540, 'Transferencia', 'bbbb-2222'),
     ];
 
-    const resultado = classificarImportacao(arquivo, []);
+    const resultado = classificarImportacao(arquivo, [], (item) => item);
     expect(resultado.novos).toHaveLength(2);
   });
 });

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "bolso",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "-w", "@bolso/web", "--", "--port", "5173"],
+      "port": 5173
+    }
+  ]
+}
