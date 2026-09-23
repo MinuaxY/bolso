@@ -40,8 +40,12 @@ const BANCO_DESCONHECIDO = `Data do Lançamento;Histórico;Valor (R$)
 16/07/2026;RENDIMENTO POUPANCA;12,34
 `;
 
+/** A marca de bytes que o Excel deixa no comeco, montada em codigo: o
+ *  caractere literal no fonte e invisivel e o lint recusa, com razao. */
+const BOM = String.fromCharCode(0xfeff);
+
 /** Fatura da XP: `;`, data brasileira, `R$ 22,45` e coluna propria de parcela. */
-const XP_FATURA = `﻿Data;Estabelecimento;Portador;Valor;Parcela
+const XP_FATURA = `${BOM}Data;Estabelecimento;Portador;Valor;Parcela
 02/09/2026;DM*EXEMPLOCOM;FULANO DE TAL;R$ 22,45;-
 05/09/2026;Pagamento de fatura;FULANO DE TAL;R$ -113,85; de 1
 06/09/2026;LOJA EXEMPLO;FULANO DE TAL;R$ 300,00;3 de 10
