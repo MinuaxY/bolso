@@ -29,6 +29,14 @@ const TRANSFERENCIA: readonly RegExp[] = [
   /^pagamento de fatura/,
   /^pagamento recebido/,
   /valor adicionado na conta por cartao de credito/,
+  // Dinheiro indo para a poupanca ou voltando dela e o mesmo dinheiro mudando
+  // de lugar. A planilha de origem tratava aplicacao como despesa da categoria
+  // "Investimentos"; aqui vira transferencia, para o "gastei" do mes nao contar
+  // o que so trocou de conta. Quem preferir o outro modelo muda a regra.
+  /^aplicacao rdb/,
+  /^resgate rdb/,
+  /transferencia (enviada|recebida) (para|de) conta investimento/,
+  /^investimento (aplicado|resgatado)/,
 ];
 
 const ESTORNO: readonly RegExp[] = [/^estorno/, /^credito de /, /^devolucao/];

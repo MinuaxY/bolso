@@ -70,6 +70,39 @@ describe('REGRAS_PADRAO', () => {
   });
 });
 
+describe('a fila de revisao so recebe o que precisa de gente', () => {
+  it('transferencia entre contas proprias nao vai para a fila', () => {
+    // Pedir para a pessoa classificar o pagamento da propria fatura e pedir
+    // trabalho por nada: a natureza ja diz o que aquilo e. Nos extratos reais
+    // isso enchia a fila com um quarto das descricoes.
+    for (const descricao of [
+      'PAGAMENTO DE FATURA',
+      'Pagamento recebido',
+      'Aplicação RDB',
+      'Resgate RDB',
+      'Transferência enviada para conta investimento',
+    ]) {
+      const resultado = categorizar(descricao, 'despesa', REGRAS_PADRAO);
+      expect(resultado.precisaRevisao, descricao).toBe(false);
+    }
+  });
+
+  it('estorno tambem nao, porque ele se explica sozinho', () => {
+    expect(categorizar('Estorno de compra', 'despesa', REGRAS_PADRAO).precisaRevisao).toBe(false);
+  });
+
+  it('o que e desconhecido de verdade continua indo', () => {
+    expect(categorizar('Loja Nunca Vista XPTO', 'despesa', REGRAS_PADRAO).precisaRevisao).toBe(true);
+  });
+
+  it('reconhece as abreviacoes que o banco usa', () => {
+    // O Nubank escreve `Ifd*` no lugar de iFood, e a planilha so tinha `ifood`.
+    expect(categorizar('Ifd*61960239 Restaurante', 'despesa', REGRAS_PADRAO).categoria).toBe(
+      'Alimentacao',
+    );
+  });
+});
+
 describe('validarRegras', () => {
   it('recusa o que nao e lista', () => {
     expect(() => validarRegras({})).toThrow(TypeError);

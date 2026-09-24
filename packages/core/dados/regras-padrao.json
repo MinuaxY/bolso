@@ -983,5 +983,45 @@
     "categoria": "Transferencia",
     "descricaoPadrao": "Transferência",
     "status": "recebido"
+  },
+  {
+    "palavraChave": "ifd",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "iFood",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "espetinho",
+    "aplicaEm": "despesa",
+    "categoria": "Alimentacao",
+    "descricaoPadrao": "Espetinho",
+    "formaPagamento": "Debito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "buser",
+    "aplicaEm": "despesa",
+    "categoria": "Transporte",
+    "descricaoPadrao": "Buser",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "terabyte",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Terabyte Shop",
+    "formaPagamento": "Credito",
+    "status": "pago"
+  },
+  {
+    "palavraChave": "shopday",
+    "aplicaEm": "despesa",
+    "categoria": "Compras",
+    "descricaoPadrao": "Shopday",
+    "formaPagamento": "Credito",
+    "status": "pago"
   }
 ]

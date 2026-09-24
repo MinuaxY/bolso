@@ -10,6 +10,7 @@
  * compra de comida vira corrida de aplicativo.
  */
 
+import { classificarNatureza } from './natureza.js';
 import { descricaoSemParcela } from './parcelas.js';
 import { corrigirMojibake, normalizar } from './texto.js';
 import type {
@@ -87,6 +88,11 @@ export function categorizar(
   tipo: TipoLancamento,
   regras: readonly RegraCategorizacao[],
 ): ResultadoCategorizacao {
+  // Transferencia entre contas proprias e estorno ja se explicam pela natureza:
+  // mandar para a fila de revisao seria pedir a pessoa que classificasse o
+  // pagamento da propria fatura. Nos extratos reais do autor isso enchia a fila
+  // com 25 das 65 descricoes.
+  const natureza = classificarNatureza(descricaoBanco);
   const descricaoLimpa = descricaoSemParcela(corrigirMojibake(descricaoBanco)).trim();
   const regra = encontrarRegra(descricaoBanco, tipo, regras);
 
@@ -94,8 +100,8 @@ export function categorizar(
     return {
       categoria: tipo === 'despesa' ? CATEGORIA_PADRAO_DESPESA : CATEGORIA_PADRAO_RECEITA,
       descricao: descricaoLimpa,
-      precisaRevisao: true,
-      motivoRevisao: 'sem-regra',
+      precisaRevisao: natureza === undefined,
+      ...(natureza === undefined ? { motivoRevisao: 'sem-regra' as const } : {}),
     };
   }
 
@@ -104,7 +110,7 @@ export function categorizar(
       ? regra.descricaoPadrao
       : descricaoLimpa;
 
-  const ambigua = normalizar(descricao).includes(MARCA_AMBIGUA);
+  const ambigua = natureza === undefined && normalizar(descricao).includes(MARCA_AMBIGUA);
 
   return {
     categoria: regra.categoria,
