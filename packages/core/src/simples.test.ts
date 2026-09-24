@@ -157,6 +157,67 @@ describe('calcularDas', () => {
   });
 });
 
+describe('composicao do DAS — conferida contra uma guia real', () => {
+  /**
+   * Guia de 08/2026 de uma empresa de arquitetura em Sao Paulo, Anexo III pelo
+   * Fator R, 1a faixa: faturamento de R$ 7.610,00 e DAS de R$ 456,59.
+   *
+   * O valor da guia e um centavo MENOR que o produto direto de 7.610 por 6%,
+   * porque a Receita calcula tributo por tributo, arredonda cada um e soma.
+   * Este teste existe porque a primeira versao do modulo errava esse centavo.
+   */
+  const REAL = {
+    receita: reais(7610),
+    rbt12: reais(90000),
+    total: reais(456.59),
+    porTributo: {
+      irpj: reais(18.26),
+      csll: reais(15.98),
+      cofins: reais(58.54),
+      pis: reais(12.69),
+      cpp: reais(198.16),
+      iss: reais(152.96),
+    },
+  };
+
+  const resultado = calcularDas({
+    receitaMesCentavos: REAL.receita,
+    rbt12Centavos: REAL.rbt12,
+    anexo: 'III',
+  });
+
+  it('o total bate com a guia, ao centavo', () => {
+    expect(resultado.dasCentavos).toBe(REAL.total);
+  });
+
+  it('nao e o produto direto de faturamento por aliquota', () => {
+    // 7.610,00 x 6% = 456,60. A guia diz 456,59.
+    expect(REAL.receita * 6 / 100).toBe(reais(456.6));
+    expect(resultado.dasCentavos).toBe(REAL.total);
+  });
+
+  it('cada tributo bate com a linha correspondente da guia', () => {
+    for (const [tributo, esperado] of Object.entries(REAL.porTributo)) {
+      const parcela = resultado.composicao.find((p) => p.tributo === tributo);
+      expect(parcela?.centavos, tributo).toBe(esperado);
+    }
+  });
+
+  it('o total e a soma das partes, e nao um numero a parte', () => {
+    const soma = resultado.composicao.reduce((total, p) => total + p.centavos, 0);
+    expect(soma).toBe(resultado.dasCentavos);
+  });
+
+  it('a partilha de toda faixa de todo anexo soma 100%', () => {
+    for (const [nome, anexo] of Object.entries(TABELA_SIMPLES.anexos)) {
+      anexo.faixas.forEach((faixa, indice) => {
+        const soma = Object.values(faixa.partilha).reduce((total, parte) => total + parte, 0);
+        expect(soma, `Anexo ${nome}, faixa ${String(indice + 1)}`).toBe(10000);
+      });
+    }
+  });
+});
+
 describe('Fator R', () => {
   it('folha de 28% da receita e o ponto de virada', () => {
     expect(calcularFatorRBase(reais(28000), reais(100000))).toBe(2800);

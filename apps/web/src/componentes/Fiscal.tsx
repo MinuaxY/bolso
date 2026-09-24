@@ -29,6 +29,8 @@ const NOME_DO_AVISO: Record<AvisoSimples, string> = {
     'A receita de 12 meses foi estimada, porque não há um ano inteiro de histórico aqui.',
   'sem-historico':
     'Sem receita nos 12 meses anteriores, a conta usa a alíquota cheia da primeira faixa. Confira o histórico antes de comparar.',
+  'iss-no-teto':
+    'Nesta faixa o ISS chega ao teto de 5% e a lei redistribui a diferença entre os tributos federais. O Bolso ainda não faz essa redistribuição, então mostra o total sem a divisão por tributo — e o valor pode diferir alguns centavos da guia.',
 };
 
 /** Campo de dinheiro que aceita o jeito brasileiro de escrever. */
@@ -421,6 +423,48 @@ export function Fiscal({
                 </span>
               </div>
             </div>
+
+            {resultado.composicao.length > 0 && fiscal.aliquotaManualBase === null && (
+              <details>
+                <summary>Como este DAS se divide entre os tributos</summary>
+                <p className="nota">
+                  É a mesma composição impressa na guia. O total sai da soma das partes, tributo a
+                  tributo — que é como a Receita calcula, e por isso ele pode diferir um centavo de
+                  multiplicar faturamento por alíquota.
+                </p>
+                <div className="tabela-rolagem">
+                  <table className="tabela">
+                    <thead>
+                      <tr>
+                        <th>Tributo</th>
+                        <th className="direita">Fatia da alíquota</th>
+                        <th className="direita">Valor</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {resultado.composicao.map((parcela) => (
+                        <tr key={parcela.tributo}>
+                          <td>{parcela.nome}</td>
+                          <td className="num direita">
+                            {formatarPercentual(parcela.percentualDaAliquota)}
+                          </td>
+                          <td className="num direita">{formatarCentavos(parcela.centavos)}</td>
+                        </tr>
+                      ))}
+                      <tr>
+                        <td>
+                          <strong>Total</strong>
+                        </td>
+                        <td />
+                        <td className="num direita">
+                          <strong>{formatarCentavos(resultado.dasCentavos)}</strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            )}
 
             <details open={fiscal.aliquotaManualBase !== null}>
               <summary>Prefiro informar a alíquota efetiva eu mesmo</summary>

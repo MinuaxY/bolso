@@ -28,12 +28,36 @@ import tabela2026 from '../dados/simples-nacional-2026.json';
 /** Os cinco anexos da Lei Complementar 123/2006. */
 export type Anexo = 'I' | 'II' | 'III' | 'IV' | 'V';
 
+/** Os tributos que o DAS reune, na ordem em que a guia os lista. */
+export type Tributo = 'irpj' | 'csll' | 'cofins' | 'pis' | 'cpp' | 'icms' | 'ipi' | 'iss';
+
+export const NOME_DO_TRIBUTO: Readonly<Record<Tributo, string>> = {
+  irpj: 'IRPJ',
+  csll: 'CSLL',
+  cofins: 'COFINS',
+  pis: 'PIS/PASEP',
+  cpp: 'INSS patronal (CPP)',
+  icms: 'ICMS',
+  ipi: 'IPI',
+  iss: 'ISS',
+};
+
 export interface FaixaSimples {
   /** Teto da faixa, em centavos. */
   readonly ate: number;
   /** Aliquota nominal em pontos-base de percentual: 7,30% e 730. */
   readonly aliquotaBase: number;
   readonly deduzirCentavos: number;
+  /** Quanto da aliquota cabe a cada tributo, tambem em pontos-base. */
+  readonly partilha: Readonly<Partial<Record<Tributo, number>>>;
+}
+
+export interface ParcelaDoDas {
+  readonly tributo: Tributo;
+  readonly nome: string;
+  /** Fatia da aliquota que cabe a este tributo, em percentual. */
+  readonly percentualDaAliquota: number;
+  readonly centavos: number;
 }
 
 export interface TabelaSimples {
@@ -43,6 +67,8 @@ export interface TabelaSimples {
   readonly limiteAnualCentavos: number;
   readonly sublimiteCentavos: number;
   readonly fatorRMinimoBase: number;
+  /** ISS efetivo e limitado a 5%; acima disso a lei redistribui a diferenca. */
+  readonly tetoIssBase: number;
   readonly anexos: Readonly<Record<Anexo, { readonly nome: string; readonly faixas: readonly FaixaSimples[] }>>;
   readonly mei: {
     readonly salarioMinimoCentavos: number;
@@ -63,7 +89,13 @@ export type AvisoSimples =
   /** RBT12 estimado por proporcionalidade, porque a empresa tem menos de 12 meses. */
   | 'rbt12-proporcional'
   /** Primeira faixa com RBT12 zerado: sem historico nao ha o que conferir. */
-  | 'sem-historico';
+  | 'sem-historico'
+  /**
+   * O ISS chegou ao teto de 5% e a lei manda redistribuir a diferenca entre os
+   * tributos federais. O Bolso ainda nao faz essa redistribuicao, entao mostra
+   * o total sem a divisao por tributo em vez de mostrar uma divisao errada.
+   */
+  | 'iss-no-teto';
 
 export interface EntradaDas {
   /** Faturamento do mes que esta sendo calculado, em centavos. */
@@ -85,6 +117,11 @@ export interface ResultadoDas {
   /** Aliquota efetiva, que e a que realmente incide sobre o mes. */
   readonly aliquotaEfetivaPercentual: number;
   readonly dasCentavos: number;
+  /**
+   * Como o DAS se divide entre os tributos, igual a composicao impressa na
+   * guia. Vazia quando a divisao nao pode ser afirmada — ver `iss-no-teto`.
+   */
+  readonly composicao: readonly ParcelaDoDas[];
   readonly avisos: readonly AvisoSimples[];
 }
 
@@ -150,7 +187,37 @@ export function calcularDas(entrada: EntradaDas): ResultadoDas {
   const efetivaNumerador = entrada.rbt12Centavos === 0 ? base : rbt12 * base - deduzir * 10000n;
   const efetivaDenominador = entrada.rbt12Centavos === 0 ? 1n : rbt12;
 
-  const dasCentavos = dividirArredondando(receita * efetivaNumerador, efetivaDenominador * 10000n);
+  // A Receita NAO calcula o total e pronto: ela calcula tributo por tributo,
+  // arredonda cada um e soma. Descoberto conferindo um DAS real de 08/2026,
+  // que deu R$ 456,59 onde o produto direto dava R$ 456,60. Num app que existe
+  // para conferir guia, um centavo de diferenca e o bastante para nao prestar.
+  const issBase = faixa.partilha.iss ?? 0;
+  const issEfetivoBase =
+    entrada.rbt12Centavos === 0
+      ? (faixa.aliquotaBase * issBase) / 10000
+      : (Number(efetivaNumerador) / Number(efetivaDenominador) / 10000) * issBase;
+
+  const issPassouDoTeto = issEfetivoBase > TABELA_SIMPLES.tetoIssBase;
+  if (issPassouDoTeto) avisos.push('iss-no-teto');
+
+  const composicao: ParcelaDoDas[] = issPassouDoTeto
+    ? []
+    : (Object.entries(faixa.partilha) as [Tributo, number][])
+        .map(([tributo, parte]) => ({
+          tributo,
+          nome: NOME_DO_TRIBUTO[tributo],
+          percentualDaAliquota: parte / 100,
+          centavos: dividirArredondando(
+            receita * efetivaNumerador * BigInt(parte),
+            efetivaDenominador * 10000n * 10000n,
+          ),
+        }))
+        .filter((parcela) => parcela.centavos > 0);
+
+  const dasCentavos =
+    composicao.length > 0
+      ? composicao.reduce((soma, parcela) => soma + parcela.centavos, 0)
+      : dividirArredondando(receita * efetivaNumerador, efetivaDenominador * 10000n);
 
   return {
     anexo: entrada.anexo,
@@ -160,6 +227,7 @@ export function calcularDas(entrada: EntradaDas): ResultadoDas {
     deduzirCentavos: faixa.deduzirCentavos,
     aliquotaEfetivaPercentual: Number(efetivaNumerador) / Number(efetivaDenominador) / 100,
     dasCentavos,
+    composicao,
     avisos,
   };
 }

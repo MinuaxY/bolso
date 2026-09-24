@@ -12,32 +12,79 @@
         {
           "ate": 18000000,
           "aliquotaBase": 400,
-          "deduzirCentavos": 0
+          "deduzirCentavos": 0,
+          "partilha": {
+            "irpj": 550,
+            "csll": 350,
+            "cofins": 1274,
+            "pis": 276,
+            "cpp": 4150,
+            "icms": 3400
+          }
         },
         {
           "ate": 36000000,
           "aliquotaBase": 730,
-          "deduzirCentavos": 594000
+          "deduzirCentavos": 594000,
+          "partilha": {
+            "irpj": 550,
+            "csll": 350,
+            "cofins": 1274,
+            "pis": 276,
+            "cpp": 4150,
+            "icms": 3400
+          }
         },
         {
           "ate": 72000000,
           "aliquotaBase": 950,
-          "deduzirCentavos": 1386000
+          "deduzirCentavos": 1386000,
+          "partilha": {
+            "irpj": 550,
+            "csll": 350,
+            "cofins": 1274,
+            "pis": 276,
+            "cpp": 4200,
+            "icms": 3350
+          }
         },
         {
           "ate": 180000000,
           "aliquotaBase": 1070,
-          "deduzirCentavos": 2250000
+          "deduzirCentavos": 2250000,
+          "partilha": {
+            "irpj": 550,
+            "csll": 350,
+            "cofins": 1274,
+            "pis": 276,
+            "cpp": 4200,
+            "icms": 3350
+          }
         },
         {
           "ate": 360000000,
           "aliquotaBase": 1430,
-          "deduzirCentavos": 8730000
+          "deduzirCentavos": 8730000,
+          "partilha": {
+            "irpj": 550,
+            "csll": 350,
+            "cofins": 1274,
+            "pis": 276,
+            "cpp": 4200,
+            "icms": 3350
+          }
         },
         {
           "ate": 480000000,
           "aliquotaBase": 1900,
-          "deduzirCentavos": 37800000
+          "deduzirCentavos": 37800000,
+          "partilha": {
+            "irpj": 1350,
+            "csll": 1000,
+            "cofins": 2827,
+            "pis": 613,
+            "cpp": 4210
+          }
         }
       ]
     },
@@ -47,32 +94,85 @@
         {
           "ate": 18000000,
           "aliquotaBase": 450,
-          "deduzirCentavos": 0
+          "deduzirCentavos": 0,
+          "partilha": {
+            "irpj": 550,
+            "csll": 350,
+            "cofins": 1151,
+            "pis": 249,
+            "cpp": 3750,
+            "icms": 3200,
+            "ipi": 750
+          }
         },
         {
           "ate": 36000000,
           "aliquotaBase": 780,
-          "deduzirCentavos": 594000
+          "deduzirCentavos": 594000,
+          "partilha": {
+            "irpj": 550,
+            "csll": 350,
+            "cofins": 1151,
+            "pis": 249,
+            "cpp": 3750,
+            "icms": 3200,
+            "ipi": 750
+          }
         },
         {
           "ate": 72000000,
           "aliquotaBase": 1000,
-          "deduzirCentavos": 1386000
+          "deduzirCentavos": 1386000,
+          "partilha": {
+            "irpj": 550,
+            "csll": 350,
+            "cofins": 1151,
+            "pis": 249,
+            "cpp": 3750,
+            "icms": 3200,
+            "ipi": 750
+          }
         },
         {
           "ate": 180000000,
           "aliquotaBase": 1120,
-          "deduzirCentavos": 2250000
+          "deduzirCentavos": 2250000,
+          "partilha": {
+            "irpj": 550,
+            "csll": 350,
+            "cofins": 1151,
+            "pis": 249,
+            "cpp": 3750,
+            "icms": 3200,
+            "ipi": 750
+          }
         },
         {
           "ate": 360000000,
           "aliquotaBase": 1470,
-          "deduzirCentavos": 8550000
+          "deduzirCentavos": 8550000,
+          "partilha": {
+            "irpj": 550,
+            "csll": 350,
+            "cofins": 1151,
+            "pis": 249,
+            "cpp": 3750,
+            "icms": 3200,
+            "ipi": 750
+          }
         },
         {
           "ate": 480000000,
           "aliquotaBase": 3000,
-          "deduzirCentavos": 72000000
+          "deduzirCentavos": 72000000,
+          "partilha": {
+            "irpj": 850,
+            "csll": 750,
+            "cofins": 2096,
+            "pis": 454,
+            "cpp": 2350,
+            "ipi": 3500
+          }
         }
       ]
     },
@@ -82,32 +182,79 @@
         {
           "ate": 18000000,
           "aliquotaBase": 600,
-          "deduzirCentavos": 0
+          "deduzirCentavos": 0,
+          "partilha": {
+            "irpj": 400,
+            "csll": 350,
+            "cofins": 1282,
+            "pis": 278,
+            "cpp": 4340,
+            "iss": 3350
+          }
         },
         {
           "ate": 36000000,
           "aliquotaBase": 1120,
-          "deduzirCentavos": 936000
+          "deduzirCentavos": 936000,
+          "partilha": {
+            "irpj": 400,
+            "csll": 350,
+            "cofins": 1405,
+            "pis": 305,
+            "cpp": 4340,
+            "iss": 3200
+          }
         },
         {
           "ate": 72000000,
           "aliquotaBase": 1350,
-          "deduzirCentavos": 1764000
+          "deduzirCentavos": 1764000,
+          "partilha": {
+            "irpj": 400,
+            "csll": 350,
+            "cofins": 1364,
+            "pis": 296,
+            "cpp": 4340,
+            "iss": 3250
+          }
         },
         {
           "ate": 180000000,
           "aliquotaBase": 1600,
-          "deduzirCentavos": 3564000
+          "deduzirCentavos": 3564000,
+          "partilha": {
+            "irpj": 400,
+            "csll": 350,
+            "cofins": 1364,
+            "pis": 296,
+            "cpp": 4340,
+            "iss": 3250
+          }
         },
         {
           "ate": 360000000,
           "aliquotaBase": 2100,
-          "deduzirCentavos": 12564000
+          "deduzirCentavos": 12564000,
+          "partilha": {
+            "irpj": 400,
+            "csll": 350,
+            "cofins": 1282,
+            "pis": 278,
+            "cpp": 4340,
+            "iss": 3350
+          }
         },
         {
           "ate": 480000000,
           "aliquotaBase": 3300,
-          "deduzirCentavos": 64800000
+          "deduzirCentavos": 64800000,
+          "partilha": {
+            "irpj": 3500,
+            "csll": 1500,
+            "cofins": 1603,
+            "pis": 347,
+            "cpp": 3050
+          }
         }
       ]
     },
@@ -117,32 +264,73 @@
         {
           "ate": 18000000,
           "aliquotaBase": 450,
-          "deduzirCentavos": 0
+          "deduzirCentavos": 0,
+          "partilha": {
+            "irpj": 1880,
+            "csll": 1520,
+            "cofins": 1767,
+            "pis": 383,
+            "iss": 4450
+          }
         },
         {
           "ate": 36000000,
           "aliquotaBase": 900,
-          "deduzirCentavos": 810000
+          "deduzirCentavos": 810000,
+          "partilha": {
+            "irpj": 1980,
+            "csll": 1520,
+            "cofins": 2055,
+            "pis": 445,
+            "iss": 4000
+          }
         },
         {
           "ate": 72000000,
           "aliquotaBase": 1020,
-          "deduzirCentavos": 1242000
+          "deduzirCentavos": 1242000,
+          "partilha": {
+            "irpj": 2080,
+            "csll": 1520,
+            "cofins": 1973,
+            "pis": 427,
+            "iss": 4000
+          }
         },
         {
           "ate": 180000000,
           "aliquotaBase": 1400,
-          "deduzirCentavos": 3978000
+          "deduzirCentavos": 3978000,
+          "partilha": {
+            "irpj": 1780,
+            "csll": 1920,
+            "cofins": 1890,
+            "pis": 410,
+            "iss": 4000
+          }
         },
         {
           "ate": 360000000,
           "aliquotaBase": 2200,
-          "deduzirCentavos": 18378000
+          "deduzirCentavos": 18378000,
+          "partilha": {
+            "irpj": 1880,
+            "csll": 1920,
+            "cofins": 1808,
+            "pis": 392,
+            "iss": 4000
+          }
         },
         {
           "ate": 480000000,
           "aliquotaBase": 3300,
-          "deduzirCentavos": 82800000
+          "deduzirCentavos": 82800000,
+          "partilha": {
+            "irpj": 5350,
+            "csll": 2150,
+            "cofins": 2055,
+            "pis": 445
+          }
         }
       ]
     },
@@ -152,32 +340,79 @@
         {
           "ate": 18000000,
           "aliquotaBase": 1550,
-          "deduzirCentavos": 0
+          "deduzirCentavos": 0,
+          "partilha": {
+            "irpj": 2500,
+            "csll": 1500,
+            "cofins": 1410,
+            "pis": 305,
+            "cpp": 2885,
+            "iss": 1400
+          }
         },
         {
           "ate": 36000000,
           "aliquotaBase": 1800,
-          "deduzirCentavos": 450000
+          "deduzirCentavos": 450000,
+          "partilha": {
+            "irpj": 2300,
+            "csll": 1500,
+            "cofins": 1410,
+            "pis": 305,
+            "cpp": 2785,
+            "iss": 1700
+          }
         },
         {
           "ate": 72000000,
           "aliquotaBase": 1950,
-          "deduzirCentavos": 990000
+          "deduzirCentavos": 990000,
+          "partilha": {
+            "irpj": 2400,
+            "csll": 1500,
+            "cofins": 1492,
+            "pis": 323,
+            "cpp": 2385,
+            "iss": 1900
+          }
         },
         {
           "ate": 180000000,
           "aliquotaBase": 2050,
-          "deduzirCentavos": 1710000
+          "deduzirCentavos": 1710000,
+          "partilha": {
+            "irpj": 2100,
+            "csll": 1500,
+            "cofins": 1574,
+            "pis": 341,
+            "cpp": 2385,
+            "iss": 2100
+          }
         },
         {
           "ate": 360000000,
           "aliquotaBase": 2300,
-          "deduzirCentavos": 6210000
+          "deduzirCentavos": 6210000,
+          "partilha": {
+            "irpj": 2300,
+            "csll": 1250,
+            "cofins": 1410,
+            "pis": 305,
+            "cpp": 2385,
+            "iss": 2350
+          }
         },
         {
           "ate": 480000000,
           "aliquotaBase": 3050,
-          "deduzirCentavos": 54000000
+          "deduzirCentavos": 54000000,
+          "partilha": {
+            "irpj": 3500,
+            "csll": 1550,
+            "cofins": 1644,
+            "pis": 356,
+            "cpp": 2950
+          }
         }
       ]
     }
@@ -188,5 +423,7 @@
     "inssBase": 500,
     "icmsCentavos": 100,
     "issCentavos": 500
-  }
+  },
+  "fundamentoPartilha": "Percentuais de reparticao dos anexos I a V da LC 123/2006. Conferidos contra um DAS real de 08/2026 (Anexo III, 1a faixa) e contra as tabelas publicadas; cada faixa soma exatamente 100%.",
+  "tetoIssBase": 500
 }

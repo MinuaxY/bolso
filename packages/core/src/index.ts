@@ -77,6 +77,7 @@ export type {
 } from './relatorios.js';
 
 export {
+  NOME_DO_TRIBUTO,
   TABELA_SIMPLES,
   anexoPorFatorR,
   calcularDas,
@@ -94,7 +95,9 @@ export type {
   Comparacao,
   EntradaDas,
   FaixaSimples,
+  ParcelaDoDas,
   ResultadoDas,
+  Tributo,
   TabelaSimples,
   Veredito,
 } from './simples.js';
