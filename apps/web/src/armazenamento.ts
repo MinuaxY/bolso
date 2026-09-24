@@ -29,6 +29,8 @@ export interface AjustesFiscais {
   /** Atividades sujeitas ao Fator R trocam de anexo conforme a folha. */
   readonly sujeitoAoFatorR: boolean;
   readonly folha12Centavos: number;
+  /** Retirada mensal do socio, base do INSS e do IRRF em DARF. */
+  readonly proLaboreCentavos: number;
   readonly atividadeMei: AtividadeMei;
   /**
    * Aliquota efetiva informada a mao, em pontos-base (8,08% e 808). Existe
@@ -52,6 +54,7 @@ export const FISCAL_INICIAL: AjustesFiscais = {
   anexo: 'III',
   sujeitoAoFatorR: true,
   folha12Centavos: 0,
+  proLaboreCentavos: 0,
   atividadeMei: 'servicos',
   aliquotaManualBase: null,
 };

@@ -7,6 +7,7 @@ import {
   calcularDas,
   calcularDasMei,
   calcularFatorRBase,
+  calcularProLabore,
   compararDas,
   dasPorAliquota,
   somarMeses,
@@ -159,6 +160,24 @@ export function Fiscal({
       }),
     [receitaFinal, rbt12Final, anexoEfetivo, mesesComDados],
   );
+
+  // Quanto o Fator R esta custando ou economizando: a mesma receita no outro
+  // anexo. E o numero que faz a pessoa entender por que o pro-labore importa.
+  const anexoOposto: Anexo = anexoEfetivo === 'III' ? 'V' : 'III';
+  const dasNoOutroAnexo = calcularDas({
+    receitaMesCentavos: receitaFinal,
+    rbt12Centavos: rbt12Final,
+    anexo: anexoOposto,
+  }).dasCentavos;
+  const diferencaEntreAnexos = Math.abs(dasNoOutroAnexo - resultado.dasCentavos);
+  const folhaMinimaCentavos = Math.ceil(
+    (rbt12Final * TABELA_SIMPLES.fatorRMinimoBase) / 10000,
+  );
+
+  const retirada = calcularProLabore({
+    proLaboreCentavos: fiscal.proLaboreCentavos,
+    ...(anexoEfetivo === 'IV' ? { anexoIV: true } : {}),
+  });
 
   const dasMei = calcularDasMei(fiscal.atividadeMei);
 
@@ -424,6 +443,31 @@ export function Fiscal({
               </div>
             </div>
 
+            {sujeitoAoFatorR && rbt12Final > 0 && receitaFinal > 0 && (
+              <div className={anexoEfetivo === 'III' ? 'cartao sucesso' : 'cartao alerta'}>
+                {anexoEfetivo === 'III' ? (
+                  <p>
+                    <strong>O Fator R está economizando {formatarCentavos(diferencaEntreAnexos)} por mês.</strong>{' '}
+                    Com a folha abaixo de 28% da receita, esta empresa cairia no Anexo V e este DAS
+                    seria {formatarCentavos(dasNoOutroAnexo)} em vez de{' '}
+                    {formatarCentavos(resultado.dasCentavos)}.
+                  </p>
+                ) : (
+                  <p>
+                    <strong>Faltam {formatarPercentual(28 - fatorRPercentual)} de folha para o Anexo III.</strong>{' '}
+                    Com folha de 12 meses a partir de {formatarCentavos(folhaMinimaCentavos)} — hoje
+                    são {formatarCentavos(fiscal.folha12Centavos)} — este DAS cairia para{' '}
+                    {formatarCentavos(dasNoOutroAnexo)}, uma diferença de{' '}
+                    {formatarCentavos(diferencaEntreAnexos)} por mês.
+                  </p>
+                )}
+                <p className="nota">
+                  Aumentar a retirada tem custo próprio: INSS e IRRF sobre o pró-labore. A conta
+                  abaixo mostra os dois lados.
+                </p>
+              </div>
+            )}
+
             {resultado.composicao.length > 0 && fiscal.aliquotaManualBase === null && (
               <details>
                 <summary>Como este DAS se divide entre os tributos</summary>
@@ -530,6 +574,101 @@ export function Fiscal({
           </>
         )}
       </section>
+
+      {fiscal.regime === 'simples' && (
+        <section className="cartao">
+          <h2>Pró-labore do sócio</h2>
+          <p className="nota">
+            A retirada do sócio não está no DAS: ela gera DARF próprio. Estes são os dois que
+            costumam chegar junto com o DAS todo mês.
+          </p>
+
+          <CampoDinheiro
+            rotulo="Quanto você retira por mês"
+            valorCentavos={fiscal.proLaboreCentavos}
+            aoMudar={(centavos) => {
+              salvarFiscal({ proLaboreCentavos: centavos });
+            }}
+            dica="Deixe em zero se você não retira pró-labore."
+          />
+
+          {fiscal.proLaboreCentavos > 0 && (
+            <>
+              <div className="indicadores">
+                <div className="indicador">
+                  <span className="indicador-rotulo">INSS — DARF 1099</span>
+                  <strong className="indicador-valor num tom-negativo">
+                    {formatarCentavos(retirada.inss.contribuicaoCentavos)}
+                  </strong>
+                  <span className="indicador-detalhe">11%, vence dia 20 do mês seguinte</span>
+                </div>
+                <div className="indicador">
+                  <span className="indicador-rotulo">IRRF</span>
+                  <strong className="indicador-valor num tom-negativo">
+                    {formatarCentavos(retirada.irrf.impostoCentavos)}
+                  </strong>
+                  <span className="indicador-detalhe">
+                    {retirada.irrf.impostoCentavos === 0
+                      ? 'isento — nada a reter'
+                      : 'vence no último dia útil do mês seguinte'}
+                  </span>
+                </div>
+                <div className="indicador">
+                  <span className="indicador-rotulo">Sobra na sua mão</span>
+                  <strong className="indicador-valor num tom-positivo">
+                    {formatarCentavos(retirada.liquidoCentavos)}
+                  </strong>
+                </div>
+                {retirada.patronalCentavos > 0 && (
+                  <div className="indicador">
+                    <span className="indicador-rotulo">Patronal (Anexo IV)</span>
+                    <strong className="indicador-valor num tom-negativo">
+                      {formatarCentavos(retirada.patronalCentavos)}
+                    </strong>
+                    <span className="indicador-detalhe">20%, só neste anexo</span>
+                  </div>
+                )}
+              </div>
+
+              {retirada.avisos.includes('isento-pelo-redutor') && (
+                <p className="sucesso-texto">
+                  Sem IRRF a reter: a Lei 15.270/2025 zera o imposto até R$ 5.000 por mês, e reduz
+                  parcialmente até R$ 7.350.
+                </p>
+              )}
+              {retirada.avisos.includes('abaixo-do-minimo') && (
+                <p className="erro-texto">
+                  A retirada está abaixo do salário mínimo, mas o INSS incide sobre o mínimo mesmo
+                  assim — retirar menos não reduz a contribuição.
+                </p>
+              )}
+              {retirada.avisos.includes('no-teto-do-inss') && (
+                <p className="nota">
+                  A contribuição travou no teto do INSS: retirar mais não aumenta o INSS.
+                </p>
+              )}
+
+              {sujeitoAoFatorR && rbt12Final > 0 && (
+                <div className="acoes">
+                  <p className="nota">
+                    Doze meses desta retirada dão {formatarCentavos(fiscal.proLaboreCentavos * 12)}{' '}
+                    de folha, ou {formatarPercentual((fiscal.proLaboreCentavos * 12 * 100) / rbt12Final)}{' '}
+                    do seu RBT12.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      salvarFiscal({ folha12Centavos: fiscal.proLaboreCentavos * 12 });
+                    }}
+                  >
+                    Usar como folha de 12 meses
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </section>
+      )}
 
       <section className="cartao">
         <h3>Comparar com o que foi cobrado</h3>
