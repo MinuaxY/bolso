@@ -101,3 +101,16 @@ export type {
 
 export { ATIVIDADES, AVISO_ATIVIDADES, atividadePorCnae, buscarAtividades } from './atividades.js';
 export type { Atividade } from './atividades.js';
+
+export {
+  TABELA_PESSOA_FISICA,
+  calcularInssProLabore,
+  calcularProLabore,
+  calcularRedutor,
+} from './prolabore.js';
+export type {
+  AvisoProLabore,
+  EntradaProLabore,
+  FaixaIrrf,
+  ResultadoProLabore,
+} from './prolabore.js';
