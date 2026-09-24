@@ -49,7 +49,8 @@ qualquer pessoa usar isto sem pagar nada.
 | Parcelas | Detecta `3/10`, projeta as parcelas futuras e mostra o quanto já está comprometido |
 | Painéis | Mês e ano, previsto contra realizado, por categoria e por forma de pagamento |
 | Metas | Limite por categoria, alerta de estouro e projeção pelo ritmo de gasto |
-| Conferência de DAS | RBT12, alíquota efetiva, Fator R e comparação com o valor cobrado |
+| Conferência de DAS | RBT12, alíquota efetiva, Fator R, composição por tributo e comparação com o valor cobrado |
+| Pró-labore | INSS, IRRF com o redutor de 2026, e quanto o Fator R está economizando por mês |
 
 ## O que não vai fazer
 
@@ -83,10 +84,13 @@ Três pacotes: `packages/core` tem o domínio em TypeScript puro, sem dependênc
 nenhuma; `packages/parsers` lê os arquivos de banco; `apps/web` é a interface. As
 decisões de código estão em [`docs/convencoes.md`](docs/convencoes.md).
 
-Validado contra 20 extratos reais de dois bancos, em CSV e OFX: 758 linhas lidas, zero
-erros de leitura, quatro dialetos diferentes do mesmo banco reconhecidos, 73%
-categorizado automaticamente. O mesmo extrato exportado nos dois formatos produz
-resultado idêntico e não duplica na importação.
+Validado contra extratos reais de dois bancos, em CSV e OFX: 775 lançamentos lidos, zero
+erros de leitura, quatro dialetos diferentes do mesmo banco reconhecidos, 82% categorizado
+automaticamente. O mesmo extrato exportado nos dois formatos produz resultado idêntico e
+não duplica na importação.
+
+O cálculo do DAS e o do pró-labore foram conferidos contra uma guia e um DARF reais de
+08/2026, e batem ao centavo — inclusive a composição por tributo impressa na guia.
 
 ## Projeto de extensão
 

@@ -159,19 +159,27 @@ arquivo aberto para quem quiser contribuir com as do banco dele.
 
 ## 7. Estado e roadmap
 
-Atualizado em 23/09/2026. O plano original previa sete sprints até dezembro;
-a maior parte foi entregue em dois dias de trabalho concentrado, e o que
-sobrou mudou de ordem por causa do que o dado real ensinou.
+Atualizado em 23/09/2026. O plano original previa sete sprints até dezembro; a
+maior parte saiu em dois dias de trabalho concentrado, e a ordem do que sobrou
+mudou por causa do que o dado real ensinou.
 
 ### Entregue — beta no ar
 
 | | |
 |---|---|
 | Núcleo de domínio | Categorização por regras ordenadas, parcelas, ciclo de fatura, deduplicação, natureza de lançamento, relatórios |
-| Leitores | OFX (conta e cartão), CSV do Nubank, CSV da XP, CSV genérico com mapeamento |
+| Leitores | OFX de conta e de cartão, CSV do Nubank, CSV da XP, CSV genérico com mapeamento de colunas |
 | Aplicação | Importação com prévia, painel do mês, extrato editável, fatura do cartão, fila de revisão, backup JSON |
-| Conferência de DAS | Simples Nacional e MEI, Fator R, RBT12 proporcional, tabela de atividades por CNAE, alíquota manual |
-| Infraestrutura | CI com lint, tipos e cobertura; publicação automática no GitHub Pages; CSP com `connect-src 'none'` |
+| Conferência de DAS | Simples e MEI, Fator R, RBT12 proporcional, composição por tributo, comparação com o valor cobrado, alíquota informada à mão |
+| Atividade e CNAE | 17 atividades com anexo e fundamento legal; 1.332 subclasses do IBGE embarcadas para mostrar a descrição oficial do código |
+| Pró-labore | INSS de 11%, IRRF com o redutor da Lei 15.270/2025, patronal do Anexo IV, e quanto o Fator R está valendo em dinheiro |
+| Infraestrutura | CI com lint, tipos e cobertura; publicação automática no Pages; CSP com `connect-src 'none'` |
+
+**Validação contra documento real.** O cálculo do DAS e o do pró-labore foram
+conferidos contra uma guia e um DARF de 08/2026 de uma empresa de arquitetura
+no Anexo III: R$ 456,59 e R$ 238,57, ao centavo, com a composição da guia
+batendo linha por linha. Os leitores foram conferidos contra 775 lançamentos de
+dois bancos em CSV e OFX, sem nenhum erro de leitura.
 
 ### Próximo — para fechar o beta
 
@@ -180,45 +188,25 @@ sobrou mudou de ordem por causa do que o dado real ensinou.
 2. **Guia de exportação por banco** — o passo em que o usuário real trava.
 3. **Marcação PF/PJ no extrato**, para o módulo fiscal somar só a receita da
    empresa em vez de toda receita do mês.
-4. **Polimento**: celular, estados vazios, revisão de textos.
+4. **Polimento**: estados vazios, revisão de textos, e guardar por competência o
+   faturamento digitado à mão (hoje ele se perde ao recarregar a página).
 
 ### Depois do beta
 
-**Cálculo de DARF.** Pedido em 23/09/2026.
+**Outros DARF.** O do pró-labore já está pronto, que é o que uma PJ do Simples
+encontra na prática — IRPJ, IPI, CSLL, COFINS, PIS e CPP estão dentro do DAS
+pelo art. 13 da LC 123/2006. Ficam para depois, por utilidade:
 
-Primeiro é preciso desfazer uma confusão comum, porque ela decide o que
-construir: **Simples Nacional e Lucro Presumido são regimes alternativos.**
-Quem está no Simples recolhe IRPJ, IPI, CSLL, COFINS, PIS/PASEP e CPP dentro
-do próprio DAS, por força do art. 13 da LC 123/2006 — não existe DARF de IRPJ
-ou CSLL para essa empresa. A calculadora de Lucro Presumido serviria a outro
-público.
-
-O DARF que uma PJ do Simples realmente encontra é o do **pró-labore do sócio**,
-e é por ele que o módulo começa:
-
-| O que | Quando vence | Detalhe que o cálculo precisa |
+| Variante | Quem paga | O que envolve |
 |---|---|---|
-| **INSS sobre o pró-labore** — 11% retidos do sócio | dia 20 do mês seguinte, em DARF previdenciário consolidado na DCTFWeb | Limitado ao teto do INSS do ano |
-| **IRRF sobre o pró-labore** | último dia útil do mês seguinte | Tabela progressiva mensal, com dedução do INSS e por dependente. Em 2026, a Lei 15.270/2025 isenta até R$ 5.000 por mês, com redução gradual até R$ 7.350 |
-| **CPP patronal de 20%** — só para quem está no Anexo IV | junto do previdenciário | No Anexo IV a contribuição patronal não está no DAS, então ela sai à parte |
-
-Depois dele, por utilidade, vêm os DARF da vida de pessoa física do sócio:
-**carnê-leão** (código 0190), para quem recebe de outra pessoa física, aluguel
-ou do exterior; e **renda variável** (código 6015), para quem vende ações ou
-faz day trade — este exige guardar prejuízo acumulado para compensação, o que
-muda o modelo de dados e por isso não é o primeiro.
-
-**IRPJ e CSLL no Lucro Presumido** ficam registrados como possibilidade
-distante: só fazem sentido se o projeto um dia atender empresa fora do Simples.
-
-Mesma disciplina do módulo do Simples: tabela em JSON versionado por ano de
-vigência, aritmética inteira, conferência contra fonte antes de escrever
-código, e a tela dizendo que é conferência e não guia.
+| **Carnê-leão** (0190) | PF que recebe de outra PF, aluguel ou do exterior | Tabela progressiva mensal, deduções, livro-caixa |
+| **Renda variável** (6015) | Quem vende ações, FIIs ou faz day trade | 15% e 20%, isenção até R$ 20 mil de venda em ações, e compensação de prejuízo acumulado — que exige guardar histórico e muda o modelo de dados |
+| **IRPJ e CSLL no Lucro Presumido** | PJ fora do Simples | Só faz sentido se o projeto um dia atender empresa fora do Simples |
 
 **Outros itens sem prazo:** cofre com senha (cifragem em repouso), séries do
 Banco Central baixadas no CI para correção por IPCA, detecção de assinaturas
-recorrentes, e empacotamento em Tauri para quem quiser ícone na área de
-trabalho.
+recorrentes, redistribuição do ISS quando ele bate no teto de 5%, e
+empacotamento em Tauri para quem quiser ícone na área de trabalho.
 
 ## 8. Entregáveis de extensão
 
