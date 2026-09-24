@@ -8,13 +8,16 @@ import {
   calcularDasMei,
   calcularFatorRBase,
   compararDas,
+  dasPorAliquota,
   somarMeses,
 } from '@bolso/core';
 import type { Anexo, AtividadeMei, AvisoSimples, Competencia, Lancamento } from '@bolso/core';
 import { analisarValorCentavos } from '@bolso/parsers';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import type { Ajustes } from '../armazenamento.js';
+import { carregarCnaes, descricaoDoCnae } from '../cnae.js';
+import type { TabelaCnae } from '../cnae.js';
 import { formatarCentavos, formatarPercentual, nomeCompetencia } from '../formato.js';
 
 const NOME_DO_AVISO: Record<AvisoSimples, string> = {
@@ -77,6 +80,20 @@ export function Fiscal({
 }) {
   const fiscal = ajustes.fiscal;
   const [cobradoCentavos, setCobradoCentavos] = useState(0);
+  const [cnaeDigitado, setCnaeDigitado] = useState('');
+  const [tabelaCnae, setTabelaCnae] = useState<TabelaCnae | null>(null);
+
+  // A tabela do IBGE viaja no app, mas so e carregada quando esta tela abre:
+  // sao 21 kB que quem nunca usa o modulo fiscal nao precisa baixar.
+  useEffect(() => {
+    let vivo = true;
+    void carregarCnaes().then((tabela) => {
+      if (vivo) setTabelaCnae(tabela);
+    });
+    return () => {
+      vivo = false;
+    };
+  }, []);
 
   const salvarFiscal = (mudanca: Partial<Ajustes['fiscal']>): void => {
     void aoSalvar({ ...ajustes, fiscal: { ...fiscal, ...mudanca } });
@@ -115,6 +132,9 @@ export function Fiscal({
   const rbt12Final = rbt12 ?? rbt12Importado;
 
   const atividade = ATIVIDADES.find((a) => a.id === fiscal.atividadeId);
+  const descricaoCnae = descricaoDoCnae(cnaeDigitado, tabelaCnae);
+  const cnaeSemResposta =
+    descricaoCnae === null && cnaeDigitado.replace(/\D/g, '').length === 7 && tabelaCnae !== null;
 
   // A atividade escolhida manda; sem ela, valem o anexo e a caixa do Fator R
   // que a pessoa marcou na mao.
@@ -139,7 +159,15 @@ export function Fiscal({
   );
 
   const dasMei = calcularDasMei(fiscal.atividadeMei);
-  const calculado = fiscal.regime === 'mei' ? dasMei : resultado.dasCentavos;
+
+  // A aliquota informada a mao vence a nossa conta: quem sabe a propria
+  // aliquota sabe mais sobre a propria empresa do que a nossa leitura do anexo.
+  const dasDoSimples =
+    fiscal.aliquotaManualBase === null
+      ? resultado.dasCentavos
+      : dasPorAliquota(receitaFinal, fiscal.aliquotaManualBase);
+
+  const calculado = fiscal.regime === 'mei' ? dasMei : dasDoSimples;
   const comparacao = compararDas(calculado, cobradoCentavos);
 
   if (fiscal.regime === 'nenhum') {
@@ -270,11 +298,25 @@ export function Fiscal({
               <input
                 type="text"
                 placeholder="Digite o CNAE ou o que a empresa faz"
+                value={cnaeDigitado}
                 onChange={(evento) => {
+                  setCnaeDigitado(evento.target.value);
                   const achada = atividadePorCnae(evento.target.value);
                   if (achada !== undefined) salvarFiscal({ atividadeId: achada.id });
                 }}
               />
+              {descricaoCnae !== null && (
+                <small className="sucesso-texto">
+                  IBGE: {descricaoCnae}
+                  {atividadePorCnae(cnaeDigitado) === undefined &&
+                    ' — conheço este código, mas não sei em que anexo ele cai. Escolha abaixo.'}
+                </small>
+              )}
+              {cnaeSemResposta && (
+                <small className="erro-texto">
+                  Não achei este código na tabela do IBGE. Confira no cartão CNPJ.
+                </small>
+              )}
               <select
                 value={fiscal.atividadeId ?? ''}
                 onChange={(evento) => {
@@ -356,16 +398,22 @@ export function Fiscal({
               <div className="indicador">
                 <span className="indicador-rotulo">Alíquota efetiva</span>
                 <strong className="indicador-valor num">
-                  {formatarPercentual(resultado.aliquotaEfetivaPercentual)}
+                  {formatarPercentual(
+                    fiscal.aliquotaManualBase === null
+                      ? resultado.aliquotaEfetivaPercentual
+                      : fiscal.aliquotaManualBase / 100,
+                  )}
                 </strong>
                 <span className="indicador-detalhe">
-                  Anexo {resultado.anexo}, {resultado.faixa}ª faixa
+                  {fiscal.aliquotaManualBase === null
+                    ? `Anexo ${resultado.anexo}, ${String(resultado.faixa)}ª faixa`
+                    : 'informada por você'}
                 </span>
               </div>
               <div className="indicador">
                 <span className="indicador-rotulo">DAS calculado</span>
                 <strong className="indicador-valor num tom-negativo">
-                  {formatarCentavos(resultado.dasCentavos)}
+                  {formatarCentavos(dasDoSimples)}
                 </strong>
                 <span className="indicador-detalhe">
                   nominal {formatarPercentual(resultado.aliquotaNominalPercentual)}, deduz{' '}
@@ -373,6 +421,49 @@ export function Fiscal({
                 </span>
               </div>
             </div>
+
+            <details open={fiscal.aliquotaManualBase !== null}>
+              <summary>Prefiro informar a alíquota efetiva eu mesmo</summary>
+              <p className="nota">
+                Se você já sabe a sua alíquota — ela aparece no extrato do PGDAS, junto do DAS —
+                informe aqui e o Bolso usa a sua, não a dele. Serve para conferir o valor sem
+                depender da nossa leitura do anexo, e para o caso de a sua atividade não estar na
+                lista.
+              </p>
+              <div className="acoes">
+                <label className="campo">
+                  Alíquota efetiva (%)
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    placeholder="8,08"
+                    value={
+                      fiscal.aliquotaManualBase === null
+                        ? ''
+                        : (fiscal.aliquotaManualBase / 100).toFixed(2).replace('.', ',')
+                    }
+                    onChange={(evento) => {
+                      const texto = evento.target.value.trim();
+                      if (texto === '') {
+                        salvarFiscal({ aliquotaManualBase: null });
+                        return;
+                      }
+                      const centesimos = analisarValorCentavos(texto);
+                      if (centesimos !== null && centesimos >= 0 && centesimos <= 10000) {
+                        salvarFiscal({ aliquotaManualBase: centesimos });
+                      }
+                    }}
+                  />
+                  <small>Deixe em branco para voltar a usar a conta do Bolso.</small>
+                </label>
+              </div>
+              {fiscal.aliquotaManualBase !== null && (
+                <p className="sucesso-texto">
+                  Usando a sua alíquota: {formatarPercentual(fiscal.aliquotaManualBase / 100)} sobre{' '}
+                  {formatarCentavos(receitaFinal)} dá {formatarCentavos(dasDoSimples)}.
+                </p>
+              )}
+            </details>
 
             <details>
               <summary>Como esta conta foi feita</summary>

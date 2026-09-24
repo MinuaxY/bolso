@@ -157,26 +157,55 @@ arquivo aberto para quem quiser contribuir com as do banco dele.
 
 ---
 
-## 7. Plano do semestre
+## 7. Estado e roadmap
 
-Sete sprints de duas semanas e uma semana de fechamento. Cada sprint entrega algo
-utilizável, e o núcleo testável vem antes de qualquer tela.
+Atualizado em 23/09/2026. O plano original previa sete sprints até dezembro;
+a maior parte foi entregue em dois dias de trabalho concentrado, e o que
+sobrou mudou de ordem por causa do que o dado real ensinou.
 
-| # | Sprint | Período | Entrega |
-|---|---|---|---|
-| 1 | Fundação | 08–19 set | Repositório, CI, modelo de dados e núcleo com testes: categorização, dedupe e ciclo de fatura |
-| 2 | Importação | 22 set–03 out | Parsers do Nubank, mapeador de CSV genérico, prévia e deduplicação |
-| 3 | Categorização | 06–17 out | Motor de regras com as 128 regras iniciais, editor e fila de revisão |
-| 4 | Painéis | 20–31 out | Visão mensal e anual, quebras por categoria e forma de pagamento |
-| 5 | Cartão e parcelas | 03–14 nov | Fatura por ciclo, parcelas projetadas e assinaturas recorrentes |
-| 6 | Metas | 17–28 nov | Orçamento por categoria, alertas e projeção de ritmo |
-| 7 | CNPJ | 01–12 dez | PF/PJ, RBT12, DAS por anexo com Fator R e comparador |
-| 8 | Entrega | 15–19 dez | Publicação, guia de exportação por banco, vídeo da oficina e feedback |
+### Entregue — beta no ar
 
-OFX e os dados públicos do BCB entram como folga: se algum sprint fechar adiantado, eles
-sobem; se apertar, ficam para depois da entrega sem comprometer o MVP.
+| | |
+|---|---|
+| Núcleo de domínio | Categorização por regras ordenadas, parcelas, ciclo de fatura, deduplicação, natureza de lançamento, relatórios |
+| Leitores | OFX (conta e cartão), CSV do Nubank, CSV da XP, CSV genérico com mapeamento |
+| Aplicação | Importação com prévia, painel do mês, extrato editável, fatura do cartão, fila de revisão, backup JSON |
+| Conferência de DAS | Simples Nacional e MEI, Fator R, RBT12 proporcional, tabela de atividades por CNAE, alíquota manual |
+| Infraestrutura | CI com lint, tipos e cobertura; publicação automática no GitHub Pages; CSP com `connect-src 'none'` |
 
----
+### Próximo — para fechar o beta
+
+1. **Metas e orçamento por categoria**, com alerta de estouro e projeção pelo
+   ritmo de gasto.
+2. **Guia de exportação por banco** — o passo em que o usuário real trava.
+3. **Marcação PF/PJ no extrato**, para o módulo fiscal somar só a receita da
+   empresa em vez de toda receita do mês.
+4. **Polimento**: celular, estados vazios, revisão de textos.
+
+### Depois do beta
+
+**Cálculo de DARF.** Pedido em 23/09/2026. DARF não é um imposto só, e cada
+variante é um cálculo diferente — a ordem abaixo é por utilidade para o
+público do projeto, e a primeira decisão é escolher por onde começar:
+
+| Variante | Quem paga | O que envolve |
+|---|---|---|
+| **Carnê-leão** (código 0190) | Pessoa física que recebe de outra pessoa física, aluguel ou do exterior | Tabela progressiva mensal do IRPF, deduções por dependente, previdência, livro-caixa. É o caso mais comum de MEI e autônomo que atende pessoa física |
+| **Renda variável** (código 6015) | Quem vende ações, FIIs ou faz day trade | 15% em swing trade e 20% em day trade, isenção até R$ 20 mil de venda no mês em ações, compensação de prejuízo acumulado. É o cálculo que mais gente erra |
+| **IRPJ e CSLL no Lucro Presumido** (2089, 2372 e outros) | PJ fora do Simples | Apuração trimestral sobre presunção por atividade, adicional de 10% acima do limite. Grande e fora do público atual, que está no Simples |
+
+Como a empresa no Simples recolhe IRPJ e CSLL dentro do próprio DAS, quem está
+nesse regime só encontra DARF na vida de pessoa física — o que aponta para
+carnê-leão e renda variável como os dois que valem a pena primeiro.
+
+Mesma disciplina do módulo do Simples: tabela em JSON versionado por ano de
+vigência, aritmética inteira, conferência contra fonte antes de escrever
+código, e a tela dizendo que é conferência e não guia.
+
+**Outros itens sem prazo:** cofre com senha (cifragem em repouso), séries do
+Banco Central baixadas no CI para correção por IPCA, detecção de assinaturas
+recorrentes, e empacotamento em Tauri para quem quiser ícone na área de
+trabalho.
 
 ## 8. Entregáveis de extensão
 

@@ -165,6 +165,20 @@ export function calcularDas(entrada: EntradaDas): ResultadoDas {
 }
 
 /**
+ * DAS a partir de uma aliquota efetiva ja conhecida.
+ *
+ * Existe para quem sabe a propria aliquota — ela sai no extrato do PGDAS — e
+ * quer conferir o valor sem depender da nossa leitura do anexo. A aliquota vem
+ * em pontos-base: 8,08% e 808.
+ */
+export function dasPorAliquota(receitaMesCentavos: number, aliquotaBase: number): number {
+  exigirPositivo(receitaMesCentavos, 'Receita do mes');
+  exigirPositivo(aliquotaBase, 'Aliquota');
+
+  return dividirArredondando(BigInt(receitaMesCentavos) * BigInt(aliquotaBase), 10000n);
+}
+
+/**
  * Fator R: quanto da receita do ano virou folha de pagamento.
  *
  * Devolve pontos-base arredondados — 28% e 2800 — para EXIBICAO. Quem decide o

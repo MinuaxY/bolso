@@ -30,6 +30,12 @@ export interface AjustesFiscais {
   readonly sujeitoAoFatorR: boolean;
   readonly folha12Centavos: number;
   readonly atividadeMei: AtividadeMei;
+  /**
+   * Aliquota efetiva informada a mao, em pontos-base (8,08% e 808). Existe
+   * para quem sabe a propria aliquota — ela sai no extrato do PGDAS — e nao
+   * quer depender da nossa leitura do anexo. `null` usa a conta do Bolso.
+   */
+  readonly aliquotaManualBase: number | null;
 }
 
 export interface Ajustes {
@@ -47,6 +53,7 @@ export const FISCAL_INICIAL: AjustesFiscais = {
   sujeitoAoFatorR: true,
   folha12Centavos: 0,
   atividadeMei: 'servicos',
+  aliquotaManualBase: null,
 };
 
 export const AJUSTES_INICIAIS: Ajustes = {

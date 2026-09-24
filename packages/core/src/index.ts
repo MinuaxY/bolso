@@ -83,6 +83,7 @@ export {
   calcularDasMei,
   calcularFatorRBase,
   compararDas,
+  dasPorAliquota,
   faixaDe,
   rbt12Proporcional,
 } from './simples.js';

@@ -17,4 +17,13 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    // Os scripts de manutencao rodam em Node, na maquina de quem mantem o
+    // projeto — nao no navegador de quem usa. Dai os globais diferentes.
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      globals: { console: 'readonly', fetch: 'readonly', process: 'readonly', URL: 'readonly' },
+    },
+    rules: { 'no-console': 'off' },
+  },
 );
