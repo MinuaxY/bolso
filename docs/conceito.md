@@ -184,19 +184,32 @@ sobrou mudou de ordem por causa do que o dado real ensinou.
 
 ### Depois do beta
 
-**Cálculo de DARF.** Pedido em 23/09/2026. DARF não é um imposto só, e cada
-variante é um cálculo diferente — a ordem abaixo é por utilidade para o
-público do projeto, e a primeira decisão é escolher por onde começar:
+**Cálculo de DARF.** Pedido em 23/09/2026.
 
-| Variante | Quem paga | O que envolve |
+Primeiro é preciso desfazer uma confusão comum, porque ela decide o que
+construir: **Simples Nacional e Lucro Presumido são regimes alternativos.**
+Quem está no Simples recolhe IRPJ, IPI, CSLL, COFINS, PIS/PASEP e CPP dentro
+do próprio DAS, por força do art. 13 da LC 123/2006 — não existe DARF de IRPJ
+ou CSLL para essa empresa. A calculadora de Lucro Presumido serviria a outro
+público.
+
+O DARF que uma PJ do Simples realmente encontra é o do **pró-labore do sócio**,
+e é por ele que o módulo começa:
+
+| O que | Quando vence | Detalhe que o cálculo precisa |
 |---|---|---|
-| **Carnê-leão** (código 0190) | Pessoa física que recebe de outra pessoa física, aluguel ou do exterior | Tabela progressiva mensal do IRPF, deduções por dependente, previdência, livro-caixa. É o caso mais comum de MEI e autônomo que atende pessoa física |
-| **Renda variável** (código 6015) | Quem vende ações, FIIs ou faz day trade | 15% em swing trade e 20% em day trade, isenção até R$ 20 mil de venda no mês em ações, compensação de prejuízo acumulado. É o cálculo que mais gente erra |
-| **IRPJ e CSLL no Lucro Presumido** (2089, 2372 e outros) | PJ fora do Simples | Apuração trimestral sobre presunção por atividade, adicional de 10% acima do limite. Grande e fora do público atual, que está no Simples |
+| **INSS sobre o pró-labore** — 11% retidos do sócio | dia 20 do mês seguinte, em DARF previdenciário consolidado na DCTFWeb | Limitado ao teto do INSS do ano |
+| **IRRF sobre o pró-labore** | último dia útil do mês seguinte | Tabela progressiva mensal, com dedução do INSS e por dependente. Em 2026, a Lei 15.270/2025 isenta até R$ 5.000 por mês, com redução gradual até R$ 7.350 |
+| **CPP patronal de 20%** — só para quem está no Anexo IV | junto do previdenciário | No Anexo IV a contribuição patronal não está no DAS, então ela sai à parte |
 
-Como a empresa no Simples recolhe IRPJ e CSLL dentro do próprio DAS, quem está
-nesse regime só encontra DARF na vida de pessoa física — o que aponta para
-carnê-leão e renda variável como os dois que valem a pena primeiro.
+Depois dele, por utilidade, vêm os DARF da vida de pessoa física do sócio:
+**carnê-leão** (código 0190), para quem recebe de outra pessoa física, aluguel
+ou do exterior; e **renda variável** (código 6015), para quem vende ações ou
+faz day trade — este exige guardar prejuízo acumulado para compensação, o que
+muda o modelo de dados e por isso não é o primeiro.
+
+**IRPJ e CSLL no Lucro Presumido** ficam registrados como possibilidade
+distante: só fazem sentido se o projeto um dia atender empresa fora do Simples.
 
 Mesma disciplina do módulo do Simples: tabela em JSON versionado por ano de
 vigência, aritmética inteira, conferência contra fonte antes de escrever
