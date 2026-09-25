@@ -60,6 +60,13 @@ qualquer pessoa usar isto sem pagar nada.
 - Conectar em banco por biblioteca não-oficial ou engenharia reversa.
 - Subir dado financeiro para servidor — nem anônimo, nem para telemetria.
 
+## Não sabe exportar o extrato do seu banco?
+
+O passo em que quase todo mundo trava não é usar o app — é achar onde o banco esconde o
+botão de exportar. O guia está em
+[`docs/exportar-extrato.md`](docs/exportar-extrato.md), e uma versão curta dele abre
+dentro da própria tela de importação.
+
 ## Como rodar na sua máquina
 
 ```bash

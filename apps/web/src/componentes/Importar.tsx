@@ -127,6 +127,54 @@ export function Importar({
         />
       </section>
 
+      <details className="cartao ajuda">
+        <summary>Não sei onde achar esse arquivo no meu banco</summary>
+
+        <p>
+          O caminho é parecido em todo banco: abra o <strong>extrato</strong>, escolha o período e
+          procure <strong>exportar</strong>, <strong>salvar</strong> ou um ícone de compartilhar, em
+          geral no topo da tela.
+        </p>
+
+        <p className="nota">
+          Se o seu banco oferecer OFX e CSV, <strong>prefira OFX</strong>: ele traz um identificador
+          por transação, então o Bolso sabe o que já foi importado sem precisar adivinhar.
+        </p>
+
+        <dl className="ficha">
+          <div>
+            <dt>Nubank — conta</dt>
+            <dd>Toque no saldo → ícone de exportar → OFX ou CSV</dd>
+          </div>
+          <div>
+            <dt>Nubank — cartão</dt>
+            <dd>Abra a fatura → exportar fatura</dd>
+          </div>
+          <div>
+            <dt>Itaú, Bradesco, BB, Caixa</dt>
+            <dd>Internet banking → Extrato → período → Exportar → OFX</dd>
+          </div>
+          <div>
+            <dt>Santander e Sicoob</dt>
+            <dd>O OFX aparece com o nome antigo, “Money” — é o mesmo arquivo</dd>
+          </div>
+        </dl>
+
+        <p className="nota">
+          <strong>Exporte todo mês.</strong> A maioria dos bancos guarda só os últimos 60 a 90 dias.
+          E não abra o arquivo no Excel antes de importar: ele reescreve separador e data ao salvar.
+        </p>
+
+        <p className="nota">
+          Banco que não está nesta lista também funciona — se o Bolso não reconhecer as colunas, ele
+          pergunta qual é qual. O guia completo está{' '}
+          <a href="https://github.com/MinuaxY/bolso/blob/main/docs/exportar-extrato.md">
+            no repositório
+          </a>
+          .
+        </p>
+      </details>
+
       {erro !== null && (
         <section className="cartao alerta">
           <h3>Não consegui ler este arquivo</h3>

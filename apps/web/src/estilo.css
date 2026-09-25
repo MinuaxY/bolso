@@ -787,3 +787,21 @@ button.apagar:hover {
   background: var(--faixa);
   color: var(--tinta-2);
 }
+
+/* ---------- ajuda dobravel ---------- */
+
+.cartao.ajuda {
+  gap: 0;
+}
+.cartao.ajuda[open] {
+  gap: 0.7rem;
+}
+.cartao.ajuda summary {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--acento);
+}
+.cartao.ajuda .ficha dd {
+  color: var(--tinta-2);
+}
