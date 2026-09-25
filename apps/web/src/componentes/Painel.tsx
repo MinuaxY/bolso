@@ -1,9 +1,10 @@
 import { comprometimentoFuturo, evolucaoMensal, resumirMes } from '@bolso/core';
-import type { Competencia, Lancamento } from '@bolso/core';
+import type { Competencia, Lancamento, Meta } from '@bolso/core';
 import { useMemo } from 'react';
 
 import { formatarCentavos, nomeCompetencia, plural } from '../formato.js';
 import { BarrasHorizontais, EvolucaoMensal } from './Graficos.js';
+import { ResumoDeMetas } from './Metas.js';
 
 function Indicador({
   rotulo,
@@ -32,9 +33,11 @@ function Indicador({
 export function Painel({
   lancamentos,
   competencia,
+  metas,
 }: {
   lancamentos: readonly Lancamento[];
   competencia: Competencia;
+  metas: readonly Meta[];
 }) {
   const resumo = useMemo(() => resumirMes(lancamentos, competencia), [lancamentos, competencia]);
   const evolucao = useMemo(() => evolucaoMensal(lancamentos), [lancamentos]);
@@ -82,6 +85,8 @@ export function Painel({
           </p>
         )}
       </section>
+
+      <ResumoDeMetas lancamentos={lancamentos} competencia={competencia} metas={metas} />
 
       <div className="duas-colunas">
         <section className="cartao">

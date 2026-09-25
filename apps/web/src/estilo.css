@@ -18,6 +18,8 @@
   --acento-fraco: #dcebe1;
   --alerta: #a93e2b;
   --alerta-fraco: #f7e5e0;
+  --atencao: #9a6a15;
+  --atencao-fraco: #f6ecd8;
   --sucesso: #1e6b49;
   --sombra: 0 1px 2px rgb(22 33 28 / 6%), 0 1px 10px rgb(22 33 28 / 4%);
   --raio: 10px;
@@ -42,6 +44,8 @@
     --acento-fraco: #16261e;
     --alerta: #e4907c;
     --alerta-fraco: #2b1c18;
+    --atencao: #d9a441;
+    --atencao-fraco: #2a2218;
     --sucesso: #5fc28c;
     --sombra: 0 1px 2px rgb(0 0 0 / 30%), 0 1px 12px rgb(0 0 0 / 25%);
   }
@@ -693,4 +697,69 @@ button.apagar:hover {
   * {
     transition: none !important;
   }
+}
+
+/* ---------- metas ---------- */
+
+.barras-trilho {
+  position: relative;
+}
+/* A projecao fica atras da barra real: mostra para onde o mes esta indo. */
+.meta-projecao {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--regua) 0 4px,
+    transparent 4px 8px
+  );
+  border-radius: 999px;
+}
+.barras-preenchimento {
+  position: relative;
+}
+.meta-tranquilo {
+  background: var(--acento);
+}
+.meta-atencao {
+  background: var(--atencao);
+}
+.meta-estourou {
+  background: var(--alerta);
+}
+
+.meta-teto {
+  color: var(--tinta-3);
+  font-weight: 400;
+}
+
+.meta-selo {
+  display: inline-block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.05rem 0.4rem;
+  border-radius: 4px;
+  margin-right: 0.35rem;
+}
+.meta-selo-tranquilo {
+  background: var(--acento-fraco);
+  color: var(--acento);
+}
+.meta-selo-atencao {
+  background: var(--atencao-fraco);
+  color: var(--atencao);
+}
+.meta-selo-estourou {
+  background: var(--alerta-fraco);
+  color: var(--alerta);
+}
+
+.metas-grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.7rem;
+}
+.metas-grade .campo {
+  max-width: none;
 }

@@ -1,10 +1,11 @@
-import { REGRAS_PADRAO, validarRegras } from '@bolso/core';
-import type { Lancamento } from '@bolso/core';
+import { REGRAS_PADRAO, categoriasDe, validarRegras } from '@bolso/core';
+import type { Lancamento, RegraCategorizacao } from '@bolso/core';
 import { useRef, useState } from 'react';
 
 import { baixar, lerTextoDoArquivo } from '../arquivo.js';
 import type { Ajustes as AjustesGuardados } from '../armazenamento.js';
 import { plural } from '../formato.js';
+import { EditorDeMetas } from './Metas.js';
 
 interface Backup {
   readonly formato: 'bolso-backup';
@@ -17,12 +18,14 @@ interface Backup {
 export function Ajustes({
   ajustes,
   lancamentos,
+  regras,
   aoSalvar,
   aoLimpar,
   aoRestaurar,
 }: {
   ajustes: AjustesGuardados;
   lancamentos: readonly Lancamento[];
+  regras: readonly RegraCategorizacao[];
   aoSalvar: (ajustes: AjustesGuardados) => Promise<void>;
   aoLimpar: () => Promise<void>;
   aoRestaurar: (lancamentos: readonly Lancamento[], ajustes: AjustesGuardados) => Promise<void>;
@@ -31,6 +34,12 @@ export function Ajustes({
   const [mensagem, setMensagem] = useState<string | null>(null);
   const [erro, setErro] = useState<string | null>(null);
   const entrada = useRef<HTMLInputElement>(null);
+
+  // Categorias que a pessoa pode querer segurar: as das regras mais as que ja
+  // apareceram nos lancamentos dela.
+  const categorias = [
+    ...new Set([...categoriasDe(regras, 'despesa'), ...lancamentos.filter((l) => l.tipo === 'despesa').map((l) => l.categoria)]),
+  ].sort((a, b) => a.localeCompare(b, 'pt-BR'));
 
   function exportar(): void {
     const backup: Backup = {
@@ -63,8 +72,9 @@ export function Ajustes({
       await aoRestaurar(conteudo.lancamentos, {
         diaFechamento: ajustesDoBackup.diaFechamento,
         regrasProprias: ajustesDoBackup.regrasProprias,
-        // Backup gerado antes do modulo fiscal nao tem esse bloco.
+        // Backup gerado antes do modulo fiscal nao tem esses blocos.
         fiscal: ajustesDoBackup.fiscal ?? ajustes.fiscal,
+        metas: ajustesDoBackup.metas ?? [],
       });
       setMensagem(
         `Backup restaurado: ${plural(conteudo.lancamentos.length, 'lançamento', 'lançamentos')}.`,
@@ -100,6 +110,14 @@ export function Ajustes({
           </small>
         </label>
       </section>
+
+      <EditorDeMetas
+        categorias={categorias}
+        metas={ajustes.metas}
+        aoMudar={(metas) => {
+          void aoSalvar({ ...ajustes, metas });
+        }}
+      />
 
       <section className="cartao">
         <h2>Regras de categorização</h2>

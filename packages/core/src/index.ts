@@ -27,6 +27,7 @@ export type {
 export {
   competenciaDaData,
   competenciaDe,
+  diasNoMes,
   ehDataCivil,
   partesDaCompetencia,
   partesDe,
@@ -117,3 +118,6 @@ export type {
   FaixaIrrf,
   ResultadoProLabore,
 } from './prolabore.js';
+
+export { avaliarMetas, totalizarMetas } from './metas.js';
+export type { AvaliacaoMeta, Meta, SituacaoMeta } from './metas.js';

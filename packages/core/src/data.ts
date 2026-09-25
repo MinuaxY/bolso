@@ -17,7 +17,7 @@ export interface PartesData {
   readonly dia: number;
 }
 
-function diasNoMes(ano: number, mes: number): number {
+export function diasNoMes(ano: number, mes: number): number {
   // Fevereiro de ano bissexto incluido: a regra completa, nao a aproximacao.
   const bissexto = (ano % 4 === 0 && ano % 100 !== 0) || ano % 400 === 0;
   const dias = [31, bissexto ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];

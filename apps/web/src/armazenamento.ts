@@ -10,7 +10,7 @@
  * que guarda extrato bancario custa risco de cadeia de suprimento.
  */
 
-import type { Anexo, AtividadeMei, Lancamento, RegraCategorizacao } from '@bolso/core';
+import type { Anexo, AtividadeMei, Lancamento, Meta, RegraCategorizacao } from '@bolso/core';
 
 import { cofreAberto } from './cofre.js';
 import type { Cofre } from './cofre.js';
@@ -46,6 +46,8 @@ export interface Ajustes {
   /** Regras do usuario. Vazio significa usar as de fabrica. */
   readonly regrasProprias: readonly RegraCategorizacao[];
   readonly fiscal: AjustesFiscais;
+  /** Teto mensal por categoria. Vazio significa que a pessoa nao usa metas. */
+  readonly metas: readonly Meta[];
 }
 
 export const FISCAL_INICIAL: AjustesFiscais = {
@@ -63,6 +65,7 @@ export const AJUSTES_INICIAIS: Ajustes = {
   diaFechamento: 5,
   regrasProprias: [],
   fiscal: FISCAL_INICIAL,
+  metas: [],
 };
 
 /**

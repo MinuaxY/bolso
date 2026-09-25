@@ -146,7 +146,11 @@ export function App() {
         ) : (
           <>
             {aba === 'painel' && (
-              <Painel lancamentos={bolso.lancamentos} competencia={competencia} />
+              <Painel
+                lancamentos={bolso.lancamentos}
+                competencia={competencia}
+                metas={bolso.ajustes.metas}
+              />
             )}
             {aba === 'extrato' && (
               <Extrato
@@ -192,6 +196,7 @@ export function App() {
               <Ajustes
                 ajustes={bolso.ajustes}
                 lancamentos={bolso.lancamentos}
+                regras={bolso.regras}
                 aoSalvar={bolso.salvarAjustes}
                 aoLimpar={bolso.limparTudo}
                 aoRestaurar={bolso.substituirTudo}
