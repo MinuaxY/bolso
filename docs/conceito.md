@@ -181,15 +181,18 @@ no Anexo III: R$ 456,59 e R$ 238,57, ao centavo, com a composição da guia
 batendo linha por linha. Os leitores foram conferidos contra 775 lançamentos de
 dois bancos em CSV e OFX, sem nenhum erro de leitura.
 
-### Próximo — para fechar o beta
+### O que fechou o beta, em 24/09/2026
 
-1. **Metas e orçamento por categoria**, com alerta de estouro e projeção pelo
-   ritmo de gasto.
-2. **Guia de exportação por banco** — o passo em que o usuário real trava.
-3. **Marcação PF/PJ no extrato**, para o módulo fiscal somar só a receita da
-   empresa em vez de toda receita do mês.
-4. **Polimento**: estados vazios, revisão de textos, e guardar por competência o
-   faturamento digitado à mão (hoje ele se perde ao recarregar a página).
+| | |
+|---|---|
+| Metas por categoria | Teto mensal, alerta a 80%, e projeção de fechamento pelo ritmo — o aviso que ainda dá tempo de usar |
+| Separação PF/PJ | Coluna no extrato que cicla em um clique, e ação em lote sobre o filtro de busca; o módulo fiscal passa a somar só a receita da empresa |
+| Guia de exportação | Por banco, no repositório e dentro da tela de importação |
+| Canais de feedback | Três modelos de issue, todos pedindo o cabeçalho do arquivo e nunca o extrato |
+| Oficina | Roteiro de dez minutos com tempos, perguntas previstas e o que pedir de retorno |
+
+O beta está funcionalmente completo. O que falta é execução, não construção:
+gravar a oficina, levar a MEIs de verdade e recolher o retorno.
 
 ### Depois do beta
 
