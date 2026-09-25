@@ -1,0 +1,52 @@
+name: Um número não bate
+description: O total do painel, a fatura ou o DAS divergem do que o banco ou a guia dizem
+labels: ['calculo']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Este é o problema mais importante que o projeto pode receber. Um número
+        errado num app de finanças é pior do que uma funcionalidade faltando.
+
+        **Não anexe a guia nem o extrato.** Os valores que você digitar abaixo bastam.
+
+  - type: dropdown
+    id: onde
+    attributes:
+      label: Onde
+      options:
+        - Total do mês no painel
+        - Fatura do cartão
+        - Parcelas em aberto
+        - DAS do Simples
+        - Pró-labore (INSS ou IRRF)
+        - Metas
+    validations:
+      required: true
+
+  - type: input
+    id: mostrou
+    attributes:
+      label: Quanto o Bolso mostrou
+      placeholder: 'R$ 456,60'
+    validations:
+      required: true
+
+  - type: input
+    id: correto
+    attributes:
+      label: Quanto deveria ser
+      description: E de onde veio esse valor — app do banco, guia, extrato do PGDAS.
+      placeholder: 'R$ 456,59, segundo a guia'
+    validations:
+      required: true
+
+  - type: textarea
+    id: contexto
+    attributes:
+      label: O que o app sabia na hora
+      description: |
+        Para o DAS: anexo, faturamento do mês e RBT12. Para a fatura: dia de fechamento.
+        Para o painel: se havia transferência ou estorno no período.
+    validations:
+      required: true

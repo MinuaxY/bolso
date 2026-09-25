@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Como exportar o extrato do meu banco
+    url: https://github.com/MinuaxY/bolso/blob/main/docs/exportar-extrato.md
+    about: O guia por banco, antes de abrir uma issue dizendo que não achou o arquivo.
+  - name: Encontrei uma falha de segurança
+    url: https://github.com/MinuaxY/bolso/security/advisories/new
+    about: Relato privado, que não fica visível até haver correção. Não abra issue pública.

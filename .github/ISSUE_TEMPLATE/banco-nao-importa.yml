@@ -1,0 +1,65 @@
+name: Meu banco não importa
+description: O arquivo do seu banco não foi reconhecido, ou importou errado
+labels: ['banco']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Antes de tudo: não anexe o seu extrato
+
+        O arquivo do seu banco tem CPF, CNPJ, agência e conta no meio das descrições.
+        **A primeira linha dele — só o cabeçalho, sem nenhuma transação — já basta**
+        para eu reconhecer o formato.
+
+        Se precisar mostrar uma transação, troque os valores e os nomes por
+        inventados antes de colar.
+
+  - type: input
+    id: banco
+    attributes:
+      label: Qual banco
+      placeholder: Inter, Sicoob, C6, Mercado Pago...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: formato
+    attributes:
+      label: Formato do arquivo
+      options:
+        - CSV
+        - OFX
+        - Outro (diga qual na descrição)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: origem
+    attributes:
+      label: É extrato de conta ou fatura de cartão?
+      options:
+        - Extrato de conta
+        - Fatura de cartão
+        - Investimentos
+    validations:
+      required: true
+
+  - type: textarea
+    id: cabecalho
+    attributes:
+      label: A primeira linha do arquivo
+      description: Só o cabeçalho, sem transação nenhuma.
+      placeholder: 'Data;Histórico;Valor (R$);Saldo'
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: aconteceu
+    attributes:
+      label: O que aconteceu
+      description: |
+        O app recusou o arquivo? Importou com data errada? Trocou receita por despesa?
+        Se apareceu mensagem de erro, copie ela aqui.
+    validations:
+      required: true

@@ -99,12 +99,18 @@ não duplica na importação.
 O cálculo do DAS e o do pró-labore foram conferidos contra uma guia e um DARF reais de
 08/2026, e batem ao centavo — inclusive a composição por tributo impressa na guia.
 
+## Como ajudar
+
+O jeito mais útil de contribuir não é escrever código — é dizer qual banco você usa e se
+o arquivo dele importou. Há modelos de issue prontos para isso, e eles pedem só o
+cabeçalho do arquivo, nunca o extrato. Veja [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Projeto de extensão
 
 Este repositório é o projeto de extensão de Engenharia de Software do segundo semestre
-de 2026. Além do código, o projeto entrega um guia de como exportar o extrato em cada
-banco, uma oficina gravada e um canal aberto de feedback pelas issues. O público
-atendido são MEIs e pequenas PJs.
+de 2026, atendendo MEIs e pequenas PJs. Além do código, entrega o
+[guia de exportação por banco](docs/exportar-extrato.md), uma
+[oficina gravada](docs/oficina.md) e o canal aberto de feedback pelas issues.
 
 ## Licença
 

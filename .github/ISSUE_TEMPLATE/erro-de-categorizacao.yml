@@ -1,0 +1,53 @@
+name: Categorizou errado
+description: Um lançamento caiu na categoria errada, ou não caiu em nenhuma
+labels: ['categorizacao']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Descrição de extrato costuma vir sem nome de pessoa, mas confira antes de
+        colar — Pix traz o nome de quem enviou. Se tiver, troque por `<NOME>`.
+
+        **Você não precisa esperar por mim para resolver isso no seu app:** a fila de
+        revisão tem um botão que cria a regra na hora, e ela passa a valer para você
+        a partir da próxima importação. Abrir a issue serve para que o próximo a usar
+        o mesmo estabelecimento já encontre a regra pronta.
+
+  - type: textarea
+    id: descricao
+    attributes:
+      label: Como a descrição aparece no extrato
+      description: Copie como está, tirando nome de pessoa se houver.
+      placeholder: 'Mp *Espetinho'
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: caiu
+    attributes:
+      label: Em que categoria caiu
+      placeholder: Outros
+    validations:
+      required: true
+
+  - type: input
+    id: deveria
+    attributes:
+      label: Em que categoria deveria cair
+      placeholder: Alimentacao
+    validations:
+      required: true
+
+  - type: dropdown
+    id: generaliza
+    attributes:
+      label: Isso serve para outras pessoas?
+      description: |
+        Regra de estabelecimento local só ajuda você. Regra de rede grande ou de
+        abreviação que o banco usa ajuda todo mundo, e essa entra nas regras de fábrica.
+      options:
+        - É um estabelecimento local, serve só para mim
+        - É rede conhecida ou abreviação do banco, serve para outros
+    validations:
+      required: true
