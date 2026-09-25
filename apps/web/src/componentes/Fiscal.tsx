@@ -130,11 +130,14 @@ export function Fiscal({
     return { rbt12Importado: soma, mesesComDados: meses };
   }, [receitaPorMes, competencia]);
 
-  const [receitaMes, setReceitaMes] = useState<number | null>(null);
-  const [rbt12, setRbt12] = useState<number | null>(null);
+  // O que a pessoa digita fica guardado sob a competencia a que pertence, e
+  // volta ao trocar de mes ou recarregar a pagina.
+  const receitaFinal = fiscal.faturamentoPorMes[competencia] ?? receitaDoMesImportada;
+  const rbt12Final = fiscal.rbt12PorMes[competencia] ?? rbt12Importado;
 
-  const receitaFinal = receitaMes ?? receitaDoMesImportada;
-  const rbt12Final = rbt12 ?? rbt12Importado;
+  const guardarPorMes = (campo: 'faturamentoPorMes' | 'rbt12PorMes', centavos: number): void => {
+    salvarFiscal({ [campo]: { ...fiscal[campo], [competencia]: centavos } });
+  };
 
   const atividade = ATIVIDADES.find((a) => a.id === fiscal.atividadeId);
   const descricaoCnae = descricaoDoCnae(cnaeDigitado, tabelaCnae);
@@ -297,7 +300,9 @@ export function Fiscal({
               <CampoDinheiro
                 rotulo={`Faturamento de ${nomeCompetencia(competencia)}`}
                 valorCentavos={receitaFinal}
-                aoMudar={setReceitaMes}
+                aoMudar={(centavos) => {
+                  guardarPorMes('faturamentoPorMes', centavos);
+                }}
                 dica={
                   receitaDoMesImportada === 0
                     ? 'Digite o faturamento do mês da empresa.'
@@ -309,7 +314,9 @@ export function Fiscal({
               <CampoDinheiro
                 rotulo="Receita dos 12 meses anteriores (RBT12)"
                 valorCentavos={rbt12Final}
-                aoMudar={setRbt12}
+                aoMudar={(centavos) => {
+                  guardarPorMes('rbt12PorMes', centavos);
+                }}
                 dica={
                   mesesComDados > 0
                     ? `Somado de ${String(mesesComDados)} ${mesesComDados === 1 ? 'mês importado' : 'meses importados'}.`

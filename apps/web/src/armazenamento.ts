@@ -38,6 +38,13 @@ export interface AjustesFiscais {
    * quer depender da nossa leitura do anexo. `null` usa a conta do Bolso.
    */
   readonly aliquotaManualBase: number | null;
+  /**
+   * Faturamento e RBT12 digitados a mao, por competencia. Guardados por mes
+   * porque sao valores de um mes especifico — um numero so estaria errado em
+   * todos os outros.
+   */
+  readonly faturamentoPorMes: Readonly<Record<string, number>>;
+  readonly rbt12PorMes: Readonly<Record<string, number>>;
 }
 
 export interface Ajustes {
@@ -59,6 +66,8 @@ export const FISCAL_INICIAL: AjustesFiscais = {
   proLaboreCentavos: 0,
   atividadeMei: 'servicos',
   aliquotaManualBase: null,
+  faturamentoPorMes: {},
+  rbt12PorMes: {},
 };
 
 export const AJUSTES_INICIAIS: Ajustes = {

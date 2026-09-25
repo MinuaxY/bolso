@@ -66,17 +66,33 @@ export function ResumoDeMetas({
   lancamentos,
   competencia,
   metas,
+  aoAbrirAjustes,
 }: {
   lancamentos: readonly Lancamento[];
   competencia: Competencia;
   metas: readonly Meta[];
+  aoAbrirAjustes: () => void;
 }) {
   const avaliacoes = useMemo(
     () => avaliarMetas(lancamentos, competencia, metas, hojeISO()),
     [lancamentos, competencia, metas],
   );
 
-  if (avaliacoes.length === 0) return null;
+  // Sem meta nenhuma, o painel convida uma vez em vez de esconder o recurso.
+  if (avaliacoes.length === 0) {
+    return (
+      <section className="cartao">
+        <h3>Metas</h3>
+        <p className="nota">
+          Um teto por categoria faz o painel avisar, no meio do mês, que o ritmo vai estourar o
+          orçamento — enquanto ainda dá para fazer algo a respeito.
+        </p>
+        <button type="button" onClick={aoAbrirAjustes}>
+          Definir metas
+        </button>
+      </section>
+    );
+  }
 
   const total = totalizarMetas(avaliacoes);
 

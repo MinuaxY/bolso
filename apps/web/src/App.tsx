@@ -150,6 +150,9 @@ export function App() {
                 lancamentos={bolso.lancamentos}
                 competencia={competencia}
                 metas={bolso.ajustes.metas}
+                aoAbrirAjustes={() => {
+                  setAba('ajustes');
+                }}
               />
             )}
             {aba === 'extrato' && (

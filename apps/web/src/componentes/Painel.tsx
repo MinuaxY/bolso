@@ -34,10 +34,12 @@ export function Painel({
   lancamentos,
   competencia,
   metas,
+  aoAbrirAjustes,
 }: {
   lancamentos: readonly Lancamento[];
   competencia: Competencia;
   metas: readonly Meta[];
+  aoAbrirAjustes: () => void;
 }) {
   const resumo = useMemo(() => resumirMes(lancamentos, competencia), [lancamentos, competencia]);
   const evolucao = useMemo(() => evolucaoMensal(lancamentos), [lancamentos]);
@@ -86,7 +88,12 @@ export function Painel({
         )}
       </section>
 
-      <ResumoDeMetas lancamentos={lancamentos} competencia={competencia} metas={metas} />
+      <ResumoDeMetas
+        lancamentos={lancamentos}
+        competencia={competencia}
+        metas={metas}
+        aoAbrirAjustes={aoAbrirAjustes}
+      />
 
       <div className="duas-colunas">
         <section className="cartao">
