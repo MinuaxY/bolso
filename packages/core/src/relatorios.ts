@@ -219,3 +219,41 @@ export function comprometimentoFuturo(
     .map(([competencia, centavos]) => ({ competencia, centavos }))
     .sort((a, b) => a.competencia.localeCompare(b.competencia));
 }
+
+export type Escopo = 'pessoal' | 'empresa';
+
+/**
+ * Receita reconhecida em cada competencia, para alimentar o modulo fiscal.
+ *
+ * Transferencia fica de fora: pagamento de fatura e resgate de investimento
+ * nao sao faturamento. Com `escopo`, soma so o que foi marcado como da empresa
+ * — que e o que separa o DAS da vida pessoal de quem mistura as duas contas.
+ */
+export function receitasPorCompetencia(
+  lancamentos: readonly Lancamento[],
+  escopo?: Escopo,
+): ReadonlyMap<Competencia, number> {
+  const mapa = new Map<Competencia, number>();
+
+  for (const lancamento of lancamentos) {
+    if (lancamento.tipo !== 'receita' || lancamento.natureza !== undefined) continue;
+    if (escopo !== undefined && lancamento.escopo !== escopo) continue;
+
+    mapa.set(
+      lancamento.competencia,
+      (mapa.get(lancamento.competencia) ?? 0) + lancamento.valorCentavos,
+    );
+  }
+
+  return mapa;
+}
+
+/**
+ * Se a pessoa ja separou alguma coisa entre pessoal e empresa.
+ *
+ * Enquanto nao separou, o modulo fiscal soma tudo e avisa; a partir do
+ * primeiro lancamento marcado, ele passa a confiar na separacao dela.
+ */
+export function temEscopoMarcado(lancamentos: readonly Lancamento[]): boolean {
+  return lancamentos.some((lancamento) => lancamento.escopo !== undefined);
+}

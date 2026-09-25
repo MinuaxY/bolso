@@ -763,3 +763,27 @@ button.apagar:hover {
 .metas-grade .campo {
   max-width: none;
 }
+
+/* ---------- separacao pessoal e empresa ---------- */
+
+.escopo {
+  font-family: var(--fonte-num);
+  font-size: 0.72rem;
+  padding: 0.1rem 0.4rem;
+  min-width: 2.2rem;
+  border-radius: 5px;
+}
+.escopo-indefinido {
+  color: var(--tinta-3);
+  border-style: dashed;
+}
+.escopo-empresa {
+  background: var(--acento-fraco);
+  border-color: var(--acento);
+  color: var(--acento);
+  font-weight: 600;
+}
+.escopo-pessoal {
+  background: var(--faixa);
+  color: var(--tinta-2);
+}

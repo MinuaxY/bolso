@@ -10,7 +10,9 @@ import {
   calcularProLabore,
   compararDas,
   dasPorAliquota,
+  receitasPorCompetencia,
   somarMeses,
+  temEscopoMarcado,
 } from '@bolso/core';
 import type { Anexo, AtividadeMei, AvisoSimples, Competencia, Lancamento } from '@bolso/core';
 import { analisarValorCentavos } from '@bolso/parsers';
@@ -102,15 +104,15 @@ export function Fiscal({
     void aoSalvar({ ...ajustes, fiscal: { ...fiscal, ...mudanca } });
   };
 
-  /** Receita reconhecida em cada competência, para montar RBT12 e o mês. */
-  const receitaPorMes = useMemo(() => {
-    const mapa = new Map<Competencia, number>();
-    for (const lancamento of lancamentos) {
-      if (lancamento.tipo !== 'receita' || lancamento.natureza !== undefined) continue;
-      mapa.set(lancamento.competencia, (mapa.get(lancamento.competencia) ?? 0) + lancamento.valorCentavos);
-    }
-    return mapa;
-  }, [lancamentos]);
+  // A partir do primeiro lancamento marcado como da empresa, o modulo fiscal
+  // passa a somar so o que e dela. Antes disso soma tudo e avisa — porque
+  // exigir a separacao antes de mostrar qualquer numero seria empurrar
+  // trabalho para quem ainda nem sabe se a ferramenta serve.
+  const separado = useMemo(() => temEscopoMarcado(lancamentos), [lancamentos]);
+  const receitaPorMes = useMemo(
+    () => receitasPorCompetencia(lancamentos, separado ? 'empresa' : undefined),
+    [lancamentos, separado],
+  );
 
   const receitaDoMesImportada = receitaPorMes.get(competencia) ?? 0;
 
@@ -297,9 +299,11 @@ export function Fiscal({
                 valorCentavos={receitaFinal}
                 aoMudar={setReceitaMes}
                 dica={
-                  receitaDoMesImportada > 0
-                    ? `Veio das receitas importadas deste mês. Corrija se a conta mistura pessoa física e jurídica.`
-                    : 'Digite o faturamento do mês da empresa.'
+                  receitaDoMesImportada === 0
+                    ? 'Digite o faturamento do mês da empresa.'
+                    : separado
+                      ? 'Somado das receitas que você marcou como da empresa no extrato.'
+                      : 'Veio de TODAS as receitas importadas deste mês. Marque no extrato quais são da empresa para separar — a coluna PF/PJ faz isso com um clique.'
                 }
               />
               <CampoDinheiro

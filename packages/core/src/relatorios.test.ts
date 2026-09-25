@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 
 import {
   competenciasDisponiveis,
+  receitasPorCompetencia,
+  temEscopoMarcado,
   comprasParceladas,
   comprometimentoFuturo,
   evolucaoMensal,
@@ -236,5 +238,33 @@ describe('comprometimentoFuturo', () => {
 
   it('sem parcelamento, nada esta comprometido', () => {
     expect(comprometimentoFuturo([despesa()])).toEqual([]);
+  });
+});
+
+describe('separacao entre pessoal e empresa', () => {
+  const lancamentos: Lancamento[] = [
+    receita({ valorCentavos: 761000, escopo: 'empresa', competencia: '2026-08' }),
+    receita({ valorCentavos: 200000, escopo: 'pessoal', competencia: '2026-08' }),
+    receita({ valorCentavos: 500000, competencia: '2026-08' }),
+    receita({ valorCentavos: 395801, natureza: 'transferencia', escopo: 'empresa', competencia: '2026-08' }),
+  ];
+
+  it('sem filtro, soma toda receita que nao e transferencia', () => {
+    expect(receitasPorCompetencia(lancamentos).get('2026-08')).toBe(1461000);
+  });
+
+  it('com filtro, soma so o que e da empresa', () => {
+    expect(receitasPorCompetencia(lancamentos, 'empresa').get('2026-08')).toBe(761000);
+  });
+
+  it('transferencia nao e faturamento nem quando marcada como da empresa', () => {
+    // O pagamento de fatura entra na conta da empresa, mas nao e receita dela.
+    const soEmpresa = receitasPorCompetencia(lancamentos, 'empresa').get('2026-08') ?? 0;
+    expect(soEmpresa).not.toBe(761000 + 395801);
+  });
+
+  it('sabe dizer se a pessoa ja separou alguma coisa', () => {
+    expect(temEscopoMarcado(lancamentos)).toBe(true);
+    expect(temEscopoMarcado([receita({}), despesa({})])).toBe(false);
   });
 });

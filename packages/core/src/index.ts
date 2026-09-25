@@ -67,11 +67,14 @@ export {
   comprasParceladas,
   comprometimentoFuturo,
   evolucaoMensal,
+  receitasPorCompetencia,
   resumirMes,
+  temEscopoMarcado,
 } from './relatorios.js';
 export type {
   CompraParcelada,
   CompromissoFuturo,
+  Escopo,
   LinhaAgrupada,
   PontoMensal,
   ResumoMes,

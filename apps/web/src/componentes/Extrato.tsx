@@ -1,5 +1,5 @@
 import { categoriasDe, normalizar } from '@bolso/core';
-import type { Competencia, Lancamento, RegraCategorizacao } from '@bolso/core';
+import type { Competencia, Escopo, Lancamento, RegraCategorizacao } from '@bolso/core';
 import { useMemo, useState } from 'react';
 
 import { dataCompleta, formatarCentavos, plural } from '../formato.js';
@@ -17,6 +17,10 @@ export function Extrato({
   aoAtualizar: (lancamento: Lancamento) => Promise<void>;
   aoRemover: (id: string) => Promise<void>;
 }) {
+  // Ciclo curto: sem marca -> empresa -> pessoal -> sem marca. Um clique so,
+  // porque separar PF de PJ e trabalho repetitivo e ninguem faz se doer.
+  const proximoEscopo = (atual: Escopo | undefined): Escopo | undefined =>
+    atual === undefined ? 'empresa' : atual === 'empresa' ? 'pessoal' : undefined;
   const [busca, setBusca] = useState('');
   const [tipo, setTipo] = useState<'todos' | 'despesa' | 'receita'>('todos');
 
@@ -68,6 +72,20 @@ export function Extrato({
           <option value="receita">Só receitas</option>
         </select>
         <span className="contagem">{plural(visiveis.length, 'lançamento', 'lançamentos')}</span>
+
+        {busca.trim().length > 0 && visiveis.length > 0 && (
+          <button
+            type="button"
+            title="Marcar como da empresa todos os lançamentos filtrados"
+            onClick={() => {
+              void Promise.all(
+                visiveis.map((l) => aoAtualizar({ ...l, escopo: 'empresa' })),
+              );
+            }}
+          >
+            Marcar {visiveis.length} como PJ
+          </button>
+        )}
       </div>
 
       {visiveis.length === 0 ? (
@@ -82,6 +100,7 @@ export function Extrato({
                 <th>Categoria</th>
                 <th>Situação</th>
                 <th className="direita">Valor</th>
+                <th title="Pessoa física ou jurídica">PF/PJ</th>
                 <th />
               </tr>
             </thead>
@@ -152,6 +171,34 @@ export function Extrato({
                     className={`num direita ${lancamento.tipo === 'receita' ? 'tom-positivo' : ''}`}
                   >
                     {formatarCentavos(lancamento.valorCentavos)}
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className={`escopo escopo-${lancamento.escopo ?? 'indefinido'}`}
+                      title={
+                        lancamento.escopo === undefined
+                          ? 'Sem separação — clique para marcar como da empresa'
+                          : lancamento.escopo === 'empresa'
+                            ? 'Da empresa — clique para marcar como pessoal'
+                            : 'Pessoal — clique para tirar a marca'
+                      }
+                      onClick={() => {
+                        const proximo = proximoEscopo(lancamento.escopo);
+                        const { escopo: _antigo, ...resto } = lancamento;
+                        void aoAtualizar(
+                          proximo === undefined
+                            ? (resto as Lancamento)
+                            : ({ ...resto, escopo: proximo } as Lancamento),
+                        );
+                      }}
+                    >
+                      {lancamento.escopo === 'empresa'
+                        ? 'PJ'
+                        : lancamento.escopo === 'pessoal'
+                          ? 'PF'
+                          : '—'}
+                    </button>
                   </td>
                   <td>
                     <button
