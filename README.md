@@ -31,6 +31,12 @@ pessoa. O Bolso é essa planilha traduzida para algo que qualquer um consegue us
 Extrato bancário é dado sensível, e não subir isso para lugar nenhum não é limitação
 técnica — é a proposta.
 
+O preço disso é que limpar os dados do navegador apaga o Bolso junto. Por isso existe a
+**cópia automática em arquivo**: você escolhe um arquivo uma vez — numa pasta do
+OneDrive, do Drive ou onde quiser — e o app reescreve ele a cada alteração. Continua sem
+servidor, porque gravar em arquivo não é requisição de rede e quem sincroniza a pasta é o
+seu serviço de nuvem. É opcional, e quem não ligar tem o backup manual de sempre.
+
 **2. Zero configuração.** Abra o endereço e use. Quem preferir rodar na própria máquina
 clona e dá dois comandos. Nenhuma chave de API, nenhum cadastro, nenhum contêiner.
 

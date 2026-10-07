@@ -438,6 +438,23 @@ code {
   color: var(--alerta);
 }
 
+/* Aviso de topo: so aparece quando a copia automatica parou, e por isso pode
+   ocupar a largura toda sem pedir licenca. */
+.faixa-aviso {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--alerta);
+  border-radius: 8px;
+  background: var(--alerta-fraco);
+  color: var(--alerta);
+  font-size: 0.9rem;
+}
+
 /* Assinatura que parou de cobrar continua na lista — saber que parou importa
    —, mas nao disputa atencao com as que ainda estao saindo do bolso. */
 .linha-apagada {

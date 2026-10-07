@@ -124,6 +124,19 @@ export function App() {
         ))}
       </nav>
 
+      {/* Fica fora dos Ajustes de proposito. O espelho so protege enquanto
+          esta gravando, e depois que o navegador reinicia ele para e espera um
+          clique — um aviso escondido numa aba que a pessoa nao abre ha semanas
+          seria o mesmo que nao avisar. */}
+      {bolso.espelho.ligado && bolso.espelho.permissao === 'precisa-autorizar' && (
+        <div className="faixa-aviso">
+          <span>A cópia automática parou: o navegador precisa da sua autorização de novo.</span>
+          <button type="button" onClick={() => void bolso.autorizarGravacao()}>
+            Autorizar gravação
+          </button>
+        </div>
+      )}
+
       <main>
         {vazio && aba !== 'importar' && aba !== 'ajustes' && aba !== 'fiscal' ? (
           <section className="cartao centro-texto">
@@ -200,9 +213,15 @@ export function App() {
                 ajustes={bolso.ajustes}
                 lancamentos={bolso.lancamentos}
                 regras={bolso.regras}
+                espelho={bolso.espelho}
+                ultimoBackup={bolso.ultimoBackup}
                 aoSalvar={bolso.salvarAjustes}
                 aoLimpar={bolso.limparTudo}
                 aoRestaurar={bolso.substituirTudo}
+                aoLigarEspelho={bolso.ligarEspelho}
+                aoDesligarEspelho={bolso.desligarEspelho}
+                aoAutorizarEspelho={bolso.autorizarGravacao}
+                aoRegistrarBackup={bolso.registrarBackupManual}
               />
             )}
           </>

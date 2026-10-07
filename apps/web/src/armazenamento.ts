@@ -222,7 +222,61 @@ export async function gravarAjustes(ajustes: Ajustes): Promise<void> {
   });
 }
 
-/** Apaga tudo. Sem confirmacao aqui: quem confirma e a tela. */
+/**
+ * O arquivo que a pessoa escolheu como espelho, para reencontra-lo depois de
+ * fechar o navegador.
+ *
+ * O `FileSystemFileHandle` e clonavel pelo algoritmo de clonagem estruturada,
+ * entao o IndexedDB guarda o proprio identificador — nao o caminho, que o
+ * navegador nao entrega. A permissao de escrever nele NAO vem junto: ela
+ * volta a ser pedida quando o navegador reinicia. Ver `espelho.ts`.
+ */
+export async function gravarArquivoEspelho(arquivo: unknown): Promise<void> {
+  await transacao(AJUSTES, 'readwrite', async (loja) => {
+    loja.put({ chave: 'espelho', valor: arquivo });
+    return Promise.resolve();
+  });
+}
+
+export async function carregarArquivoEspelho(): Promise<unknown> {
+  const bruto = await transacao(AJUSTES, 'readonly', (loja) =>
+    promessa(loja.get('espelho') as IDBRequest<{ chave: string; valor: unknown } | undefined>),
+  );
+  return bruto?.valor ?? null;
+}
+
+export async function esquecerArquivoEspelho(): Promise<void> {
+  await transacao(AJUSTES, 'readwrite', async (loja) => {
+    loja.delete('espelho');
+    return Promise.resolve();
+  });
+}
+
+/** Quando a pessoa baixou o ultimo backup manual, para a tela poder cobrar. */
+export async function gravarUltimoBackup(quando: string): Promise<void> {
+  await transacao(AJUSTES, 'readwrite', async (loja) => {
+    loja.put({ chave: 'ultimo-backup', valor: quando });
+    return Promise.resolve();
+  });
+}
+
+export async function carregarUltimoBackup(): Promise<string | null> {
+  const bruto = await transacao(AJUSTES, 'readonly', (loja) =>
+    promessa(loja.get('ultimo-backup') as IDBRequest<{ chave: string; valor: string } | undefined>),
+  );
+  return bruto?.valor ?? null;
+}
+
+/**
+ * Apaga tudo. Sem confirmacao aqui: quem confirma e a tela.
+ *
+ * Limpar a colecao de ajustes leva o espelho junto, e isso e deliberado: um
+ * espelho sobrevivente apontaria para o arquivo de backup com o app agora
+ * vazio, e a primeira gravacao automatica sobrescreveria a unica copia que
+ * sobrou. O espelho tem uma segunda defesa contra isso em `estado.ts` — ele
+ * nunca grava backup vazio sozinho —, porque esta e a perda de dado mais cara
+ * que este app consegue causar e uma defesa so nao basta.
+ */
 export async function apagarTudo(): Promise<void> {
   await transacao(LANCAMENTOS, 'readwrite', async (loja) => {
     loja.clear();

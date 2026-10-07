@@ -1,34 +1,42 @@
-import { REGRAS_PADRAO, categoriasDe, validarRegras } from '@bolso/core';
+import { REGRAS_PADRAO, categoriasDe } from '@bolso/core';
 import type { Lancamento, RegraCategorizacao } from '@bolso/core';
 import { useRef, useState } from 'react';
 
 import { baixar, lerTextoDoArquivo } from '../arquivo.js';
 import type { Ajustes as AjustesGuardados } from '../armazenamento.js';
+import { lerBackup, serializarBackup } from '../backup.js';
+import type { ArquivoEspelho } from '../espelho.js';
+import type { EstadoEspelho } from '../estado.js';
 import { plural } from '../formato.js';
+import { AvisoDeBackup, Espelho } from './Espelho.js';
 import { EditorDeMetas } from './Metas.js';
-
-interface Backup {
-  readonly formato: 'bolso-backup';
-  readonly versao: 1;
-  readonly gerado: string;
-  readonly ajustes: AjustesGuardados;
-  readonly lancamentos: readonly Lancamento[];
-}
 
 export function Ajustes({
   ajustes,
   lancamentos,
   regras,
+  espelho,
+  ultimoBackup,
   aoSalvar,
   aoLimpar,
   aoRestaurar,
+  aoLigarEspelho,
+  aoDesligarEspelho,
+  aoAutorizarEspelho,
+  aoRegistrarBackup,
 }: {
   ajustes: AjustesGuardados;
   lancamentos: readonly Lancamento[];
   regras: readonly RegraCategorizacao[];
+  espelho: EstadoEspelho;
+  ultimoBackup: string | null;
   aoSalvar: (ajustes: AjustesGuardados) => Promise<void>;
   aoLimpar: () => Promise<void>;
   aoRestaurar: (lancamentos: readonly Lancamento[], ajustes: AjustesGuardados) => Promise<void>;
+  aoLigarEspelho: (arquivo: ArquivoEspelho) => Promise<void>;
+  aoDesligarEspelho: () => Promise<void>;
+  aoAutorizarEspelho: () => Promise<void>;
+  aoRegistrarBackup: () => Promise<void>;
 }) {
   const [confirmando, setConfirmando] = useState(false);
   const [mensagem, setMensagem] = useState<string | null>(null);
@@ -42,15 +50,9 @@ export function Ajustes({
   ].sort((a, b) => a.localeCompare(b, 'pt-BR'));
 
   function exportar(): void {
-    const backup: Backup = {
-      formato: 'bolso-backup',
-      versao: 1,
-      gerado: new Date().toISOString(),
-      ajustes,
-      lancamentos,
-    };
     const hoje = new Date().toISOString().slice(0, 10);
-    baixar(`bolso-backup-${hoje}.json`, JSON.stringify(backup, null, 2));
+    baixar(`bolso-backup-${hoje}.json`, serializarBackup(lancamentos, ajustes));
+    void aoRegistrarBackup();
     setMensagem('Backup salvo. Guarde-o como guardaria o extrato em PDF.');
   }
 
@@ -60,24 +62,10 @@ export function Ajustes({
     setMensagem(null);
 
     try {
-      const conteudo = JSON.parse(await lerTextoDoArquivo(arquivo)) as Partial<Backup>;
-
-      if (conteudo.formato !== 'bolso-backup' || !Array.isArray(conteudo.lancamentos)) {
-        throw new Error('Este arquivo não é um backup do Bolso.');
-      }
-
-      const ajustesDoBackup = conteudo.ajustes ?? ajustes;
-      validarRegras(ajustesDoBackup.regrasProprias ?? []);
-
-      await aoRestaurar(conteudo.lancamentos, {
-        diaFechamento: ajustesDoBackup.diaFechamento,
-        regrasProprias: ajustesDoBackup.regrasProprias,
-        // Backup gerado antes do modulo fiscal nao tem esses blocos.
-        fiscal: ajustesDoBackup.fiscal ?? ajustes.fiscal,
-        metas: ajustesDoBackup.metas ?? [],
-      });
+      const lido = lerBackup(await lerTextoDoArquivo(arquivo), ajustes);
+      await aoRestaurar(lido.lancamentos, lido.ajustes);
       setMensagem(
-        `Backup restaurado: ${plural(conteudo.lancamentos.length, 'lançamento', 'lançamentos')}.`,
+        `Backup restaurado: ${plural(lido.lancamentos.length, 'lançamento', 'lançamentos')}.`,
       );
     } catch (causa) {
       setErro(causa instanceof Error ? causa.message : String(causa));
@@ -178,9 +166,22 @@ export function Ajustes({
           </label>
         </div>
 
+        <AvisoDeBackup
+          ultimoBackup={ultimoBackup}
+          temDados={lancamentos.length > 0}
+          espelhoLigado={espelho.ligado}
+        />
+
         {mensagem !== null && <p className="sucesso-texto">{mensagem}</p>}
         {erro !== null && <p className="erro-texto">{erro}</p>}
       </section>
+
+      <Espelho
+        espelho={espelho}
+        aoLigar={aoLigarEspelho}
+        aoDesligar={aoDesligarEspelho}
+        aoAutorizar={aoAutorizarEspelho}
+      />
 
       <section className="cartao alerta">
         <h2>Apagar tudo</h2>

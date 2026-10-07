@@ -4,7 +4,7 @@ Este documento existe porque o Bolso lida com extrato bancário. Ele descreve o 
 projeto guarda, o que ele nunca faz, contra o que ele protege e — igualmente importante
 — contra o que ele **não** protege.
 
-Última revisão: 03/09/2026.
+Última revisão: 07/10/2026.
 
 ---
 
@@ -94,6 +94,33 @@ Pages não deixa definir cabeçalho HTTP. Duas consequências:
 O que importa continua valendo: `connect-src 'none'` funciona por `<meta>`, e é
 ele que bloqueia qualquer saída de dado.
 
+## 4.2 Durabilidade: a cópia automática em arquivo
+
+Privacidade e durabilidade puxam para lados opostos. Guardar tudo só no navegador é o
+que faz o Bolso não ter servidor — e é também o que torna "limpar dados de navegação"
+uma perda total. O backup manual existe desde o começo e depende de a pessoa lembrar,
+que é exatamente o que ninguém faz.
+
+**Decisão de 07/10/2026:** cópia automática opcional em arquivo, pela File System
+Access API. A pessoa escolhe o arquivo uma vez e o app reescreve a cada alteração.
+
+- **Não é requisição de rede.** A API escreve num arquivo local sob permissão que a
+  própria pessoa concede no seletor do sistema. O `connect-src 'none'` continua valendo
+  e continua verdade que nenhum dado sai da máquina por conta do app. Quem sincroniza,
+  se a pasta escolhida for do OneDrive ou do Drive, é esse serviço — e isso está dito na
+  tela, porque é uma escolha da pessoa e não uma coisa que o Bolso faz por baixo.
+- **Desligada por padrão.** Quem não ligar tem o app exatamente como antes.
+- **Só Chrome e Edge no computador.** Firefox e Safari não implementam a API; lá a tela
+  oferece o backup manual, que continua existindo para todo mundo. Para quem não liga a
+  cópia automática, o app passa a cobrar quando o último backup tem mais de trinta dias.
+
+**O risco que isto cria, e como está contido.** Um espelho ligado apontando para o
+arquivo de backup, com o app vazio, sobrescreveria a única cópia que restou. É a perda
+de dado mais cara que este app consegue causar, e tem duas defesas independentes:
+`apagarTudo` esquece o espelho junto, e o espelho **nunca grava backup vazio por conta
+própria** — só por ação explícita da pessoa. Há teste de tela para isso: depois de
+apagar tudo, o arquivo fica byte a byte igual.
+
 ## 5. O que o Bolso não protege
 
 Ser honesto sobre o limite é parte da segurança.
@@ -104,8 +131,12 @@ Ser honesto sobre o limite é parte da segurança.
   enxerga o que a página enxerga.
 - **Quem tem acesso físico ao seu perfil de navegador**, enquanto o cofre não estiver
   ligado.
-- **O arquivo de backup.** O export sai em JSON legível. Guarde-o como guardaria o
-  extrato em PDF.
+- **O arquivo de backup.** O export sai em JSON legível, e a cópia automática grava o
+  mesmo JSON legível. Guarde-o como guardaria o extrato em PDF — e, se apontar a cópia
+  automática para uma pasta sincronizada, lembre que ela passa a existir também no
+  servidor desse serviço de nuvem, sob as regras dele. É uma troca deliberada: o risco
+  de perder tudo era maior que o de confiar no OneDrive, mas quem discorda tem o
+  backup manual e uma pasta local.
 - **Sua conta do provedor de hospedagem.** Quem controla o repositório controla o código
   distribuído. Por isso: 2FA obrigatório na conta e nenhuma Action com permissão de
   escrita desnecessária.
