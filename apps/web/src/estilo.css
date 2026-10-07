@@ -433,6 +433,16 @@ code {
   background: var(--faixa);
   color: var(--tinta-3);
 }
+.etiqueta-alerta {
+  background: var(--alerta-fraco);
+  color: var(--alerta);
+}
+
+/* Assinatura que parou de cobrar continua na lista — saber que parou importa
+   —, mas nao disputa atencao com as que ainda estao saindo do bolso. */
+.linha-apagada {
+  color: var(--tinta-3);
+}
 
 /* ---------- formularios ---------- */
 

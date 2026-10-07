@@ -207,9 +207,34 @@ pelo art. 13 da LC 123/2006. Ficam para depois, por utilidade:
 | **IRPJ e CSLL no Lucro Presumido** | PJ fora do Simples | Só faz sentido se o projeto um dia atender empresa fora do Simples |
 
 **Outros itens sem prazo:** cofre com senha (cifragem em repouso), séries do
-Banco Central baixadas no CI para correção por IPCA, detecção de assinaturas
-recorrentes, redistribuição do ISS quando ele bate no teto de 5%, e
-empacotamento em Tauri para quem quiser ícone na área de trabalho.
+Banco Central baixadas no CI para correção por IPCA, redistribuição do ISS
+quando ele bate no teto de 5%, e empacotamento em Tauri para quem quiser ícone
+na área de trabalho.
+
+### Depois do relatório — entregue em 07/10/2026
+
+| | |
+|---|---|
+| Assinaturas recorrentes | Reconhece a cobrança mensal pelo histórico, projeta o custo do ano, aponta reajuste de preço e marca a que parou de cobrar |
+| Fatura de exemplo | `docs/exemplo-fatura.csv`: quatro meses inventados para quem quiser ver o app funcionando antes de importar o próprio extrato |
+
+A detecção de assinatura é menos um problema de achar repetição e mais um de
+não confundir. Três coisas se parecem com assinatura no extrato e não são, e
+cada uma precisou de uma regra própria: **parcelamento** (mesma loja, mesmo
+valor, todo mês — a diferença é que acaba, e o campo `parcela` sabe disso),
+**mercado** (cobra várias vezes no mês, e não uma), e **compra avulsa repetida**
+(o valor não se parece de um mês para o outro). A tolerância de 15% em torno da
+mediana existe para o caminho inverso: reajuste anual e serviço cobrado em
+dólar mudam o valor, e exigir valor exato perderia justamente as assinaturas
+mais caras.
+
+Rodado contra os 112 lançamentos reais dos extratos de referência: **nenhum
+falso positivo**. Os dois únicos candidatos recorrentes do arquivo — Pix
+enviado e corridas de aplicativo — foram recusados pela regra de frequência,
+que é o motivo certo. A validação do caminho inverso está na fatura de
+exemplo, porque os extratos reais de cartão disponíveis cobrem um mês só — e
+foi isso que mostrou qual era o estado vazio certo: a tela diz quantos meses
+faltam, em vez de dizer que não encontrou nada.
 
 ## 8. Entregáveis de extensão
 

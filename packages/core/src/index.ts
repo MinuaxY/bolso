@@ -124,3 +124,6 @@ export type {
 
 export { avaliarMetas, totalizarMetas } from './metas.js';
 export type { AvaliacaoMeta, Meta, SituacaoMeta } from './metas.js';
+
+export { custoAnualCentavos, detectarAssinaturas } from './assinaturas.js';
+export type { Assinatura, OpcoesAssinatura, SituacaoAssinatura } from './assinaturas.js';

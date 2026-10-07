@@ -45,7 +45,8 @@ qualquer pessoa usar isto sem pagar nada.
 |---|---|
 | Importação | OFX de qualquer banco, CSV do Nubank e da XP já mapeados, mapeador para qualquer outro CSV, com prévia e deduplicação |
 | Categorização | Motor de regras por palavra-chave, editável, com fila de revisão para o que não casar |
-| Cartão de crédito | Fatura por ciclo de fechamento, gasto por categoria, assinaturas recorrentes |
+| Cartão de crédito | Fatura por ciclo de fechamento, gasto por categoria |
+| Assinaturas | Reconhece a cobrança que se repete todo mês, mostra quanto ela custa por ano e avisa quando o preço subiu |
 | Parcelas | Detecta `3/10`, projeta as parcelas futuras e mostra o quanto já está comprometido |
 | Painéis | Mês e ano, previsto contra realizado, por categoria e por forma de pagamento |
 | Metas | Limite por categoria, alerta de estouro e projeção pelo ritmo de gasto |
@@ -59,6 +60,16 @@ qualquer pessoa usar isto sem pagar nada.
 - Pedir a senha do seu banco, em nenhuma hipótese.
 - Conectar em banco por biblioteca não-oficial ou engenharia reversa.
 - Subir dado financeiro para servidor — nem anônimo, nem para telemetria.
+
+## Quer ver funcionando antes de usar o seu extrato?
+
+Há uma fatura de exemplo em [`docs/exemplo-fatura.csv`](docs/exemplo-fatura.csv): quatro
+meses de dados inventados, no formato que o app reconhece sozinho. Baixe e importe.
+
+Ela existe para mostrar o que é difícil de ver em um mês só — assinaturas que se repetem,
+um reajuste de preço no meio do caminho — e carrega de propósito as duas coisas que
+*parecem* assinatura e não são: uma compra em dez vezes e um mercado com várias compras
+por mês. Nenhuma das duas entra na lista.
 
 ## Não sabe exportar o extrato do seu banco?
 

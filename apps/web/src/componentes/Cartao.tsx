@@ -3,6 +3,7 @@ import type { Competencia, Lancamento } from '@bolso/core';
 import { useMemo } from 'react';
 
 import { dataCompleta, formatarCentavos, nomeCompetencia, plural } from '../formato.js';
+import { Assinaturas } from './Assinaturas.js';
 
 export function Cartao({
   lancamentos,
@@ -139,6 +140,10 @@ export function Cartao({
           </div>
         )}
       </section>
+
+      {/* A assinatura olha o extrato inteiro, e nao so a fatura do mes: ela
+          existe exatamente para mostrar o que atravessa os meses. */}
+      <Assinaturas lancamentos={lancamentos} />
 
       {futuro.length > 0 && (
         <section className="cartao destaque">
