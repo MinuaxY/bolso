@@ -217,6 +217,7 @@ na área de trabalho.
 |---|---|
 | Assinaturas recorrentes | Reconhece a cobrança mensal pelo histórico, projeta o custo do ano, aponta reajuste de preço e marca a que parou de cobrar |
 | Fatura de exemplo | `docs/exemplo-fatura.csv`: quatro meses inventados para quem quiser ver o app funcionando antes de importar o próprio extrato |
+| Cópia automática em arquivo | Opcional: a pessoa escolhe um arquivo uma vez e o app reescreve a cada alteração. Fundamentação e defesas em [`seguranca.md`](seguranca.md), seção 4.2 |
 
 A detecção de assinatura é menos um problema de achar repetição e mais um de
 não confundir. Três coisas se parecem com assinatura no extrato e não são, e
@@ -235,6 +236,21 @@ que é o motivo certo. A validação do caminho inverso está na fatura de
 exemplo, porque os extratos reais de cartão disponíveis cobrem um mês só — e
 foi isso que mostrou qual era o estado vazio certo: a tela diz quantos meses
 faltam, em vez de dizer que não encontrou nada.
+
+A cópia automática atacou o outro lado da mesma moeda. Guardar tudo no
+navegador é o que faz o Bolso não ter servidor, e é também o que torna "limpar
+dados de navegação" uma perda total; o backup manual existia e dependia de a
+pessoa lembrar. Agora o arquivo acompanha o estado sozinho, e apontá-lo para
+uma pasta sincronizada resolve de uma vez perder o navegador, trocar de máquina
+e — um dia — mudar de endereço, que é o risco que a seção 4 já registrava.
+Continua sem servidor, porque gravar em arquivo não é requisição de rede.
+
+**Restauração conferida de ponta a ponta em 07/10/2026**, no app publicado: 46
+lançamentos, metas, dia de fechamento e o bloco fiscal inteiro gravados; banco
+apagado; backup restaurado pela tela. O hash canônico do conteúdo antes e
+depois é o mesmo — o que cobre o que a tela não mostra, como os identificadores
+de cada lançamento e as marcações da fila de revisão. Backup que nunca foi
+restaurado é esperança, não backup.
 
 ## 8. Entregáveis de extensão
 
